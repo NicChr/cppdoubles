@@ -1,0 +1,86 @@
+---
+title:
+output: github_document
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE,
+  echo = TRUE,
+  collapse = TRUE,
+  message = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+```
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+# cppdoubles
+
+# **Fast Relative Comparisons of Floating Point Numbers in C++**
+
+Comparing equality of 2 double vectors
+
+```{r basic}
+library(cppdoubles)
+
+### Basic usage ###
+
+# Standard equality operator
+sqrt(2)^2 == 2
+
+# approximate equality operator
+sqrt(2)^2 %~==% 2
+```
+
+Other approximate equality operators
+
+```{r}
+sqrt(2)^2 %~>=% 2
+sqrt(2)^2 %~<=% 2
+sqrt(2)^2 %~>% 2
+sqrt(2)^2 %~<% 2
+
+# Alternatively
+double_equal(2, sqrt(2)^2)
+double_gte(2, sqrt(2)^2)
+double_lte(2, sqrt(2)^2)
+double_gt(2, sqrt(2)^2)
+double_lt(2, sqrt(2)^2)
+```
+
+All comparisons are vectorised and recycled
+
+```{r}
+double_equal(sqrt(1:10),
+             sqrt(1:5),
+             tol = c(-Inf, 1e-10, Inf))
+```
+
+One can check if a double is a whole number like so
+
+```{r}
+# One can check for whole numbers like so
+whole_number <- function(x, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+  double_equal(x, round(x))
+}
+x <- seq(-5, 5, by = 0.2)
+whole_nums <- x[whole_number(x)]
+whole_nums
+```
+
+# Benchmark against using syntactically simpler absolute differences
+
+```{r}
+library(bench)
+x <- abs(rnorm(10^7))
+y <- sqrt(x)^2
+
+mark(double_equal(x, y),
+     abs_diff(x, y) < sqrt(.Machine$double.eps))
+```
+
+
