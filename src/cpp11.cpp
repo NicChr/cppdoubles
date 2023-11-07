@@ -41,21 +41,21 @@ extern "C" SEXP _cppdoubles_cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP toler
   END_CPP11
 }
 // cpp_doubles.cpp
-SEXP cpp_rel_diff_vectorised(SEXP x, SEXP y);
-extern "C" SEXP _cppdoubles_cpp_rel_diff_vectorised(SEXP x, SEXP y) {
+SEXP cpp_double_rel_diff_vectorised(SEXP x, SEXP y);
+extern "C" SEXP _cppdoubles_cpp_double_rel_diff_vectorised(SEXP x, SEXP y) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_rel_diff_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y)));
+    return cpp11::as_sexp(cpp_double_rel_diff_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_cppdoubles_cpp_double_equal_vectorised", (DL_FUNC) &_cppdoubles_cpp_double_equal_vectorised, 3},
-    {"_cppdoubles_cpp_double_gt_vectorised",    (DL_FUNC) &_cppdoubles_cpp_double_gt_vectorised,    3},
-    {"_cppdoubles_cpp_double_gte_vectorised",   (DL_FUNC) &_cppdoubles_cpp_double_gte_vectorised,   3},
-    {"_cppdoubles_cpp_double_lt_vectorised",    (DL_FUNC) &_cppdoubles_cpp_double_lt_vectorised,    3},
-    {"_cppdoubles_cpp_double_lte_vectorised",   (DL_FUNC) &_cppdoubles_cpp_double_lte_vectorised,   3},
-    {"_cppdoubles_cpp_rel_diff_vectorised",     (DL_FUNC) &_cppdoubles_cpp_rel_diff_vectorised,     2},
+    {"_cppdoubles_cpp_double_equal_vectorised",    (DL_FUNC) &_cppdoubles_cpp_double_equal_vectorised,    3},
+    {"_cppdoubles_cpp_double_gt_vectorised",       (DL_FUNC) &_cppdoubles_cpp_double_gt_vectorised,       3},
+    {"_cppdoubles_cpp_double_gte_vectorised",      (DL_FUNC) &_cppdoubles_cpp_double_gte_vectorised,      3},
+    {"_cppdoubles_cpp_double_lt_vectorised",       (DL_FUNC) &_cppdoubles_cpp_double_lt_vectorised,       3},
+    {"_cppdoubles_cpp_double_lte_vectorised",      (DL_FUNC) &_cppdoubles_cpp_double_lte_vectorised,      3},
+    {"_cppdoubles_cpp_double_rel_diff_vectorised", (DL_FUNC) &_cppdoubles_cpp_double_rel_diff_vectorised, 2},
     {NULL, NULL, 0}
 };
 }

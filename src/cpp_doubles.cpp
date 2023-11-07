@@ -257,7 +257,7 @@ SEXP cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
 }
 
 [[cpp11::register]]
-SEXP cpp_rel_diff_vectorised(SEXP x, SEXP y) {
+SEXP cpp_double_rel_diff_vectorised(SEXP x, SEXP y) {
   // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
   R_xlen_t y_len = Rf_xlength(y);
