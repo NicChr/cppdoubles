@@ -1,5 +1,7 @@
-#include <Rcpp.h>
-#include <Rinternals.h>
+#include <cpp11.hpp>
+// #include <Rinternals.h>
+// #include <stdbool.h>
+// #include <math.h>
 
 #define R_NO_REMAP
 
@@ -84,7 +86,7 @@ bool cpp_double_lte(double x, double y, double tolerance){
 }
 
 
-// [[Rcpp::export(rng = false)]]
+[[cpp11::register]]
 SEXP cpp_double_equal_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
@@ -99,7 +101,7 @@ SEXP cpp_double_equal_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   double *p_x = REAL(x);
   double *p_y = REAL(y);
   double *p_t = REAL(tolerance);
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  SEXP out = Rf_protect(Rf_allocVector(LGLSXP, n));
   int *p_out = LOGICAL(out);
   R_xlen_t xi;
   R_xlen_t yi;
@@ -114,11 +116,11 @@ SEXP cpp_double_equal_vectorised(SEXP x, SEXP y, SEXP tolerance) {
       p_out[i] = NA_LOGICAL;
     }
   }
-  UNPROTECT(1);
+  Rf_unprotect(1);
   return out;
 }
 
-// [[Rcpp::export(rng = false)]]
+[[cpp11::register]]
 SEXP cpp_double_gt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
@@ -133,7 +135,7 @@ SEXP cpp_double_gt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   double *p_x = REAL(x);
   double *p_y = REAL(y);
   double *p_t = REAL(tolerance);
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  SEXP out = Rf_protect(Rf_allocVector(LGLSXP, n));
   int *p_out = LOGICAL(out);
   R_xlen_t xi;
   R_xlen_t yi;
@@ -148,11 +150,11 @@ SEXP cpp_double_gt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
       p_out[i] = NA_LOGICAL;
     }
   }
-  UNPROTECT(1);
+  Rf_unprotect(1);
   return out;
 }
 
-// [[Rcpp::export(rng = false)]]
+[[cpp11::register]]
 SEXP cpp_double_gte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
@@ -167,7 +169,7 @@ SEXP cpp_double_gte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   double *p_x = REAL(x);
   double *p_y = REAL(y);
   double *p_t = REAL(tolerance);
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  SEXP out = Rf_protect(Rf_allocVector(LGLSXP, n));
   int *p_out = LOGICAL(out);
   R_xlen_t xi;
   R_xlen_t yi;
@@ -182,11 +184,11 @@ SEXP cpp_double_gte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
       p_out[i] = NA_LOGICAL;
     }
   }
-  UNPROTECT(1);
+  Rf_unprotect(1);
   return out;
 }
 
-// [[Rcpp::export(rng = false)]]
+[[cpp11::register]]
 SEXP cpp_double_lt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
@@ -201,7 +203,7 @@ SEXP cpp_double_lt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   double *p_x = REAL(x);
   double *p_y = REAL(y);
   double *p_t = REAL(tolerance);
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  SEXP out = Rf_protect(Rf_allocVector(LGLSXP, n));
   int *p_out = LOGICAL(out);
   R_xlen_t xi;
   R_xlen_t yi;
@@ -216,11 +218,11 @@ SEXP cpp_double_lt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
       p_out[i] = NA_LOGICAL;
     }
   }
-  UNPROTECT(1);
+  Rf_unprotect(1);
   return out;
 }
 
-// [[Rcpp::export(rng = false)]]
+[[cpp11::register]]
 SEXP cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
@@ -235,7 +237,7 @@ SEXP cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
   double *p_x = REAL(x);
   double *p_y = REAL(y);
   double *p_t = REAL(tolerance);
-  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  SEXP out = Rf_protect(Rf_allocVector(LGLSXP, n));
   int *p_out = LOGICAL(out);
   R_xlen_t xi;
   R_xlen_t yi;
@@ -250,6 +252,6 @@ SEXP cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
       p_out[i] = NA_LOGICAL;
     }
   }
-  UNPROTECT(1);
+  Rf_unprotect(1);
   return out;
 }

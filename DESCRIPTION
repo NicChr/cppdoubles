@@ -5,15 +5,16 @@ Authors@R:
     person("Nick", "Christofides", , "nick.christofides.r@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9743-7342"))
 Description: Compare double-precision floating point vectors using
-    relative differences. All equality operators are written using 'Rcpp'.
+    relative differences. All equality operators are written using
+    'cpp11'.
 License: MIT + file LICENSE
-Imports:
-    Rcpp
+Depends:
+    R (>= 3.5.0)
 Suggests: 
     bench,
     testthat (>= 3.0.0)
 LinkingTo: 
-    Rcpp
+    cpp11
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
