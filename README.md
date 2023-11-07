@@ -83,6 +83,6 @@ mark(double_equal(x, y),
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                361.6ms 361.6ms      2.77    38.1MB     2.77
-#> 2 abs_diff(x, y) < sqrt(.Machine$d…  89.8ms  92.9ms     10.8    114.4MB    16.1
+#> 1 double_equal(x, y)                  364ms   364ms      2.75    38.1MB     2.75
+#> 2 abs_diff(x, y) < sqrt(.Machine$d…  82.5ms  83.2ms     12.0    114.4MB    18.0
 ```
