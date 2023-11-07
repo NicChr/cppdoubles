@@ -5,7 +5,7 @@ Authors@R:
     person("Nick", "Christofides", , "nick.christofides.r@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9743-7342"))
 Description: Compare double-precision floating point vectors using
-    relative differences. All equality operators are written using
+    relative differences. All equality operations are calculated using
     'cpp11'.
 License: MIT + file LICENSE
 BugReports: https://github.com/NicChr/cppdoubles/issues
