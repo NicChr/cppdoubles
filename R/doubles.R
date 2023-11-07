@@ -87,7 +87,7 @@
     x == y
   } else {
     cpp_double_equal_vectorised(as.double(x), as.double(y),
-                                as.double(getOption("cppdoubles.tolerance")))
+                                as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
   }
 }
 #' @rdname doubles
@@ -97,7 +97,7 @@
     x >= y
   } else {
     cpp_double_gte_vectorised(as.double(x), as.double(y),
-                              as.double(getOption("cppdoubles.tolerance")))
+                              as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
   }
 }
 #' @rdname doubles
@@ -107,7 +107,7 @@
     x > y
   } else {
     cpp_double_gt_vectorised(as.double(x), as.double(y),
-                             as.double(getOption("cppdoubles.tolerance")))
+                             as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
   }
 }
 #' @rdname doubles
@@ -117,7 +117,7 @@
     x <= y
   } else {
     cpp_double_lte_vectorised(as.double(x), as.double(y),
-                              as.double(getOption("cppdoubles.tolerance")))
+                              as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
   }
 }
 #' @rdname doubles
@@ -127,7 +127,7 @@
     x < y
   } else {
     cpp_double_lt_vectorised(as.double(x), as.double(y),
-                             as.double(getOption("cppdoubles.tolerance")))
+                             as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
   }
 }
 #' @rdname doubles
