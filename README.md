@@ -8,6 +8,13 @@
 
 # **Fast Relative Comparisons of Floating Point Numbers in C++**
 
+You can install `cppdoubles` using the below code.
+
+``` r
+remotes::install_github("NicChr/cppdoubles")
+}
+```
+
 Comparing equality of 2 double vectors
 
 ``` r
@@ -63,7 +70,7 @@ One can check if a double is a whole number like so
 ``` r
 # One can check for whole numbers like so
 whole_number <- function(x, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
-  double_equal(x, round(x))
+  double_equal(x, round(x), tol = tol)
 }
 x <- seq(-5, 5, by = 0.2)
 whole_nums <- x[whole_number(x)]
@@ -83,6 +90,6 @@ mark(double_equal(x, y),
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                  364ms   364ms      2.75    38.1MB     2.75
-#> 2 abs_diff(x, y) < sqrt(.Machine$d…  82.5ms  83.2ms     12.0    114.4MB    18.0
+#> 1 double_equal(x, y)                307.4ms 307.4ms      3.25    38.1MB     3.25
+#> 2 abs_diff(x, y) < sqrt(.Machine$d…  84.5ms  86.3ms     11.6    114.4MB    17.4
 ```

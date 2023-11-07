@@ -22,6 +22,13 @@ knitr::opts_chunk$set(
 
 # **Fast Relative Comparisons of Floating Point Numbers in C++**
 
+You can install `cppdoubles` using the below code.
+
+```{r install, message = FALSE, eval = FALSE}
+remotes::install_github("NicChr/cppdoubles")
+}
+```
+
 Comparing equality of 2 double vectors
 
 ```{r basic}
@@ -65,7 +72,7 @@ One can check if a double is a whole number like so
 ```{r}
 # One can check for whole numbers like so
 whole_number <- function(x, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
-  double_equal(x, round(x))
+  double_equal(x, round(x), tol = tol)
 }
 x <- seq(-5, 5, by = 0.2)
 whole_nums <- x[whole_number(x)]
