@@ -12,7 +12,6 @@ You can install `cppdoubles` using the below code.
 
 ``` r
 remotes::install_github("NicChr/cppdoubles")
-}
 ```
 
 Comparing equality of 2 double vectors
@@ -89,7 +88,7 @@ mark(double_equal(x, y),
      abs_diff(x, y) < sqrt(.Machine$double.eps))
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
-#>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                307.4ms 307.4ms      3.25    38.1MB     3.25
-#> 2 abs_diff(x, y) < sqrt(.Machine$d…  84.5ms  86.3ms     11.6    114.4MB    17.4
+#>   <bch:expr>                          <bch> <bch:t>     <dbl> <bch:byt>    <dbl>
+#> 1 double_equal(x, y)                  385ms 384.6ms      2.60    38.1MB     2.60
+#> 2 abs_diff(x, y) < sqrt(.Machine$dou…  94ms  95.9ms     10.4    114.4MB    15.6
 ```

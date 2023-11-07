@@ -26,7 +26,6 @@ You can install `cppdoubles` using the below code.
 
 ```{r install, message = FALSE, eval = FALSE}
 remotes::install_github("NicChr/cppdoubles")
-}
 ```
 
 Comparing equality of 2 double vectors
