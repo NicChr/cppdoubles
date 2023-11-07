@@ -8,6 +8,7 @@ Description: Compare double-precision floating point vectors using
     relative differences. All equality operators are written using
     'cpp11'.
 License: MIT + file LICENSE
+BugReports: https://github.com/NicChr/cppdoubles/issues
 Depends:
     R (>= 3.5.0)
 Suggests: 
