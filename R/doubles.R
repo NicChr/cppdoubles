@@ -175,14 +175,4 @@ double_lt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machin
     cpp_double_lt_vectorised(as.double(x), as.double(y), as.double(tol))
   }
 }
-#' @rdname doubles
-#' @export
-rel_diff <- function(x, y){
-  abs(x - y) / pmax(abs(x), abs(y))
-}
-#' @rdname doubles
-#' @export
-abs_diff <- function(x, y){
-  abs(x - y)
-}
 

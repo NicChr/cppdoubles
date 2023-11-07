@@ -11,8 +11,6 @@
 \alias{double_gt}
 \alias{double_lte}
 \alias{double_lt}
-\alias{rel_diff}
-\alias{abs_diff}
 \title{Relative comparison of double-precision floating point numbers}
 \usage{
 x \%~==\% y
@@ -54,10 +52,6 @@ double_lt(
   y,
   tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))
 )
-
-rel_diff(x, y)
-
-abs_diff(x, y)
 }
 \arguments{
 \item{x}{A \link{double} vector.}
