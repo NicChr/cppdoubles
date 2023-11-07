@@ -19,3 +19,7 @@ cpp_double_lt_vectorised <- function(x, y, tolerance) {
 cpp_double_lte_vectorised <- function(x, y, tolerance) {
   .Call(`_cppdoubles_cpp_double_lte_vectorised`, x, y, tolerance)
 }
+
+cpp_rel_diff_vectorised <- function(x, y) {
+  .Call(`_cppdoubles_cpp_rel_diff_vectorised`, x, y)
+}

@@ -13,7 +13,7 @@
 #' @rdname diff
 #' @export
 rel_diff <- function(x, y){
-  abs(x - y) / pmax(abs(x), abs(y))
+  .Call(`_cppdoubles_cpp_rel_diff_vectorised`, x, y)
 }
 #' @rdname diff
 #' @export
