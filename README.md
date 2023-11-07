@@ -2,8 +2,6 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/NicChr/cppdoubles/branch/master/graph/badge.svg)](https://app.codecov.io/gh/NicChr/cppdoubles?branch=master)
 <!-- badges: end -->
 
 # cppdoubles
@@ -85,6 +83,6 @@ mark(double_equal(x, y),
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                390.1ms 390.1ms      2.56    38.1MB     2.56
-#> 2 abs_diff(x, y) < sqrt(.Machine$d…  94.7ms  95.9ms     10.4    114.4MB    15.6
+#> 1 double_equal(x, y)                361.6ms 361.6ms      2.77    38.1MB     2.77
+#> 2 abs_diff(x, y) < sqrt(.Machine$d…  89.8ms  92.9ms     10.8    114.4MB    16.1
 ```
