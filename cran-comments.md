@@ -1,3 +1,10 @@
+
+Resubmitted due to to issues with the description title and license.
+Have changed the following:
+  C++ in Description title has been changed to 'C++'
+  License was referencing the wrong package name. 
+  and has been changed from rdoubles to cppdoubles.
+
 ## Test environments
 - R-hub windows-x86_64-devel (r-devel)
 - R-hub ubuntu-gcc-release (r-release)

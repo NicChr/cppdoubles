@@ -13,7 +13,7 @@
 #' @rdname diff
 #' @export
 rel_diff <- function(x, y){
-  .Call(`_cppdoubles_cpp_double_rel_diff_vectorised`, x, y)
+  .Call(`_cppdoubles_cpp_double_rel_diff_vectorised`, as.double(x), as.double(y))
 }
 #' @rdname diff
 #' @export

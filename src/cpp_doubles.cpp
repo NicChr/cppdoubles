@@ -258,10 +258,9 @@ SEXP cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
 
 [[cpp11::register]]
 SEXP cpp_double_rel_diff_vectorised(SEXP x, SEXP y) {
-  // double tolerance = std::sqrt(std::numeric_limits<double>::epsilon());
   R_xlen_t x_len = Rf_xlength(x);
   R_xlen_t y_len = Rf_xlength(y);
-  R_xlen_t n = std::max(x_len, y_len);
+  R_xlen_t n = std::fmax(x_len, y_len);
   if (x_len <= 0 || y_len <= 0){
     // Avoid loop if any are length zero vectors
     n = 0;
@@ -276,10 +275,6 @@ SEXP cpp_double_rel_diff_vectorised(SEXP x, SEXP y) {
     xi = i % x_len;
     yi = i % y_len;
     p_out[i] = cpp_double_rel_diff(p_x[xi], p_y[yi]);
-    // If either is NA, out is NA
-    if ( cpp_double_is_na(p_x[xi]) || cpp_double_is_na(p_y[yi]) ){
-      p_out[i] = NA_REAL;
-    }
   }
   Rf_unprotect(1);
   return out;

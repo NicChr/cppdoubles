@@ -1,5 +1,5 @@
 Package: cppdoubles
-Title: Fast Relative Comparisons of Floating Point Numbers in C++
+Title: Fast Relative Comparisons of Floating Point Numbers in 'C++'
 Version: 0.1.0.9000
 Authors@R: 
     person("Nick", "Christofides", , "nick.christofides.r@gmail.com", role = c("aut", "cre"),
