@@ -2,6 +2,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/cppdoubles)](https://CRAN.R-project.org/package=cppdoubles)
 <!-- badges: end -->
 
 # cppdoubles
@@ -77,6 +79,25 @@ whole_nums
 #>  [1] -5 -4 -3 -2 -1  0  1  2  3  4  5
 ```
 
+We can also make an alternative to `all.equal.numeric`
+
+``` r
+all_equal <- function(x, y){
+  all(double_equal(x, y))
+}
+x <- seq(0, 10, 2)
+y <- sqrt(x)^2
+
+all_equal(x, y)
+#> [1] TRUE
+all_equal(x, 1)
+#> [1] FALSE
+all_equal(x, NA)
+#> [1] NA
+isTRUE(all_equal(x, NA))
+#> [1] FALSE
+```
+
 # Benchmark against using syntactically simpler absolute differences
 
 ``` r
@@ -88,7 +109,7 @@ mark(double_equal(x, y),
      abs_diff(x, y) < sqrt(.Machine$double.eps))
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
-#>   <bch:expr>                          <bch> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                  385ms 384.6ms      2.60    38.1MB     2.60
-#> 2 abs_diff(x, y) < sqrt(.Machine$dou…  94ms  95.9ms     10.4    114.4MB    15.6
+#>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
+#> 1 double_equal(x, y)                358.9ms 358.9ms      2.79    38.1MB     2.79
+#> 2 abs_diff(x, y) < sqrt(.Machine$d…  82.7ms  84.9ms     11.8    114.4MB    17.7
 ```

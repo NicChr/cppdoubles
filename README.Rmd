@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/cppdoubles)](https://CRAN.R-project.org/package=cppdoubles)
 <!-- badges: end -->
 
 # cppdoubles
@@ -76,6 +77,21 @@ whole_number <- function(x, tol = getOption("cppdoubles.tolerance", sqrt(.Machin
 x <- seq(-5, 5, by = 0.2)
 whole_nums <- x[whole_number(x)]
 whole_nums
+```
+
+We can also make an alternative to `all.equal.numeric`
+
+```{r}
+all_equal <- function(x, y){
+  all(double_equal(x, y))
+}
+x <- seq(0, 10, 2)
+y <- sqrt(x)^2
+
+all_equal(x, y)
+all_equal(x, 1)
+all_equal(x, NA)
+isTRUE(all_equal(x, NA))
 ```
 
 # Benchmark against using syntactically simpler absolute differences
