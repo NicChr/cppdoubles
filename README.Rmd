@@ -79,12 +79,9 @@ whole_nums <- x[whole_number(x)]
 whole_nums
 ```
 
-We can also make an alternative to `all.equal.numeric`
+`all_equal` as an alternative to base R `all.equal.numeric`
 
 ```{r}
-all_equal <- function(x, y){
-  all(double_equal(x, y))
-}
 x <- seq(0, 10, 2)
 y <- sqrt(x)^2
 
@@ -94,13 +91,29 @@ all_equal(x, NA)
 isTRUE(all_equal(x, NA))
 ```
 
-# Benchmark against using syntactically simpler absolute differences
+Benchmark against `all.equal.numeric`
 
 ```{r}
 library(bench)
 x <- abs(rnorm(10^7))
 y <- sqrt(x)^2
+z <- x^2
 
+# 2 approximately equal vectors
+mean(rel_diff(x, y))
+mark(base = isTRUE(all.equal(x, y)),
+     cppdoubles = all_equal(x, y))
+
+# 2 significantly different vectors
+mean(rel_diff(x, z))
+mark(base = isTRUE(all.equal(x, z)),
+     cppdoubles = all_equal(x, z))
+```
+
+
+Benchmark against using absolute differences
+
+```{r}
 mark(double_equal(x, y),
      abs_diff(x, y) < sqrt(.Machine$double.eps))
 ```

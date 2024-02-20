@@ -79,12 +79,9 @@ whole_nums
 #>  [1] -5 -4 -3 -2 -1  0  1  2  3  4  5
 ```
 
-We can also make an alternative to `all.equal.numeric`
+`all_equal` as an alternative to base R `all.equal.numeric`
 
 ``` r
-all_equal <- function(x, y){
-  all(double_equal(x, y))
-}
 x <- seq(0, 10, 2)
 y <- sqrt(x)^2
 
@@ -98,18 +95,45 @@ isTRUE(all_equal(x, NA))
 #> [1] FALSE
 ```
 
-# Benchmark against using syntactically simpler absolute differences
+Benchmark against `all.equal.numeric`
 
 ``` r
 library(bench)
 x <- abs(rnorm(10^7))
 y <- sqrt(x)^2
+z <- x^2
 
+# 2 approximately equal vectors
+mean(rel_diff(x, y))
+#> [1] 7.761826e-17
+mark(base = isTRUE(all.equal(x, y)),
+     cppdoubles = all_equal(x, y))
+#> # A tibble: 2 × 6
+#>   expression      min   median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+#> 1 base          259ms    264ms      3.79     437MB     13.3
+#> 2 cppdoubles    164ms    164ms      6.08        0B      0
+
+# 2 significantly different vectors
+mean(rel_diff(x, z))
+#> [1] 0.4627246
+mark(base = isTRUE(all.equal(x, z)),
+     cppdoubles = all_equal(x, z))
+#> # A tibble: 2 × 6
+#>   expression      min   median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
+#> 1 base        178.6ms  183.6ms      5.39     343MB     10.8
+#> 2 cppdoubles    2.1µs    2.3µs 403385.          0B      0
+```
+
+Benchmark against using absolute differences
+
+``` r
 mark(double_equal(x, y),
      abs_diff(x, y) < sqrt(.Machine$double.eps))
 #> # A tibble: 2 × 6
-#>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
-#>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                358.9ms 358.9ms      2.79    38.1MB     2.79
-#> 2 abs_diff(x, y) < sqrt(.Machine$d…  82.7ms  84.9ms     11.8    114.4MB    17.7
+#>   expression                             min median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr>                         <bch:t> <bch:>     <dbl> <bch:byt>    <dbl>
+#> 1 double_equal(x, y)                 177.5ms  178ms      5.59    38.1MB      0  
+#> 2 abs_diff(x, y) < sqrt(.Machine$do…  40.5ms   44ms     22.4    114.4MB     39.2
 ```

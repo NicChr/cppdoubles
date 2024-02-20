@@ -23,3 +23,7 @@ cpp_double_lte_vectorised <- function(x, y, tolerance) {
 cpp_double_rel_diff_vectorised <- function(x, y) {
   .Call(`_cppdoubles_cpp_double_rel_diff_vectorised`, x, y)
 }
+
+cpp_all_equal <- function(x, y, tolerance, na_rm) {
+  .Call(`_cppdoubles_cpp_all_equal`, x, y, tolerance, na_rm)
+}
