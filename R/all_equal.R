@@ -25,18 +25,19 @@
 #'
 #' @examples
 #' library(cppdoubles)
-#' x <- rnorm(10)
+#' library(bench)
+#' x <- seq(0, 1, 0.2)
 #' y <- sqrt(x)^2
 #'
 #' all_equal(x, y)
 #'
 #' # Comparison to all.equal
-#' z <- runif(10^5, 1, 100)
+#' z <- runif(10^4, 1, 100)
 #' ones <- rep(1, length(z))
-#' bench::mark(base = isTRUE(all.equal(z, z)),
+#' mark(base = isTRUE(all.equal(z, z)),
 #'             cppdoubles = all_equal(z, z),
 #'             iterations = 100)
-#' bench::mark(base = isTRUE(all.equal(z, ones)),
+#' mark(base = isTRUE(all.equal(z, ones)),
 #'             cppdoubles = all_equal(z, ones),
 #'             iterations = 100)
 #'

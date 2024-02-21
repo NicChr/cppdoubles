@@ -1,4 +1,4 @@
-# cppdoubles (In development)
+# cppdoubles 0.2.0
 
 * New function `all_equal` as an efficient alternative to `all.equal` for 
 numeric vectors.

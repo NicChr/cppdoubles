@@ -29,10 +29,10 @@ testthat::test_that("Integers", {
 
 testthat::test_that("Differences", {
   testthat::expect_equal(rel_diff(10^-8, 2 * 10^-8),
-                         rel_diff(10^-8, 2 * 10^-8))
+                         rel_diff(2 * 10^-8, 10^-8))
 
   testthat::expect_equal(abs_diff(10^-8, 2 * 10^-8),
-                         abs_diff(10^-8, 2 * 10^-8))
+                         abs_diff(2 * 10^-8, 10^-8))
 })
 
 testthat::test_that("Double floating point precision", {
