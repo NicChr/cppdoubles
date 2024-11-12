@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/cppdoubles)](https://CRAN.R-project.org/package=cppdoubles)
+[![Codecov test coverage](https://codecov.io/gh/NicChr/cppdoubles/graph/badge.svg)](https://app.codecov.io/gh/NicChr/cppdoubles)
 <!-- badges: end -->
 
 # cppdoubles

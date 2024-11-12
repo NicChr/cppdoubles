@@ -4,6 +4,8 @@
 [![R-CMD-check](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NicChr/cppdoubles/actions/workflows/R-CMD-check.yaml)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/cppdoubles)](https://CRAN.R-project.org/package=cppdoubles)
+[![Codecov test
+coverage](https://codecov.io/gh/NicChr/cppdoubles/graph/badge.svg)](https://app.codecov.io/gh/NicChr/cppdoubles)
 <!-- badges: end -->
 
 # cppdoubles
@@ -105,25 +107,25 @@ z <- x^2
 
 # 2 approximately equal vectors
 mean(rel_diff(x, y))
-#> [1] 7.753906e-17
+#> [1] 7.760502e-17
 mark(base = isTRUE(all.equal(x, y)),
      cppdoubles = all_equal(x, y))
 #> # A tibble: 2 × 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 base          365ms    376ms      2.66     437MB     9.31
-#> 2 cppdoubles    157ms    158ms      6.30        0B     0
+#> 1 base          367ms    380ms      2.63     437MB     9.22
+#> 2 cppdoubles    156ms    157ms      6.38        0B     0
 
 # 2 significantly different vectors
 mean(rel_diff(x, z))
-#> [1] 0.4627931
+#> [1] 0.4627624
 mark(base = isTRUE(all.equal(x, z)),
      cppdoubles = all_equal(x, z))
 #> # A tibble: 2 × 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 base        262.1ms  271.9ms      3.68     343MB     7.35
-#> 2 cppdoubles    2.3µs    2.5µs 362696.          0B     0
+#> 1 base        261.7ms  273.2ms      3.66     343MB     7.32
+#> 2 cppdoubles    2.3µs    2.5µs 361935.          0B     0
 ```
 
 Benchmark against using absolute differences
@@ -134,6 +136,6 @@ mark(double_equal(x, y),
 #> # A tibble: 2 × 6
 #>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                170.4ms 171.3ms      5.82    38.1MB      0  
-#> 2 abs_diff(x, y) < sqrt(.Machine$d…  68.6ms  69.9ms     14.3    114.4MB     28.6
+#> 1 double_equal(x, y)                170.7ms 174.1ms      5.76    38.1MB      0  
+#> 2 abs_diff(x, y) < sqrt(.Machine$d…  68.2ms  68.9ms     14.5    114.4MB     29.0
 ```
