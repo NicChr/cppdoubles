@@ -26,7 +26,7 @@ double rel_diff(double x, double y){
   double ax = std::fabs(x);
   double ay = std::fabs(y);
 
-  if (ax <= tol && ay <= tol){
+  if (ax < tol && ay < tol){
     return 0.0;
   } else {
     return abs_diff(x, y) / std::fmax(ax, ay);
