@@ -1,7 +1,25 @@
-Updated package version to 0.2.0
+* Updated to version 0.3.0
+
+* Checked and passed using rhub v2.0.0 in the following environments:
 
 ## Test environments
-- R-hub windows-x86_64-devel (r-devel)
-- R-hub ubuntu-gcc-release (r-release)
-- R-hub fedora-clang-devel (r-devel)
-- R-hub linux-x86_64-rocker-gcc-san (r-devel)
+- R-hubv2 windows (R-devel)
+- R-hubv2 linux (R-devel)
+- R-hubv2 macos-arm64 (R-devel)
+- R-hubv2 clang-asan
+- R-hubv2 ubuntu-gcc12
+- R-hubv2 ubuntu-clang
+
+Additionally checked on win-builder.r-project.org:
+
+- windows (R-devel)
+- windows (R-release)
+- windows (R-old release)
+
+and R-CMD-check github actions:
+
+- macos-latest (release)
+- ubuntu-latest (devel)
+- ubuntu-latest (oldrel-1)
+- ubuntu-latest (release)
+- windows-latest (release)
