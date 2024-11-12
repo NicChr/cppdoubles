@@ -62,6 +62,13 @@ test_that("Double floating point precision", {
   expect_equal(all.equal(x < z, double_lt(x, z)), TRUE)
   expect_equal(all.equal(x == z, double_equal(x, z)), TRUE)
 
+  expect_true(all_equal(x, sqrt(x)^2, na.rm = FALSE))
+  expect_true(all_equal(x, sqrt(x)^2, na.rm = TRUE))
+  expect_true(all_equal(c(1, 2 ,3), c(NA, 2, 3), na.rm = TRUE))
+  expect_identical(all_equal(c(1, 2 ,3), c(NA, 2, 3), na.rm = FALSE), NA)
+  expect_false(all_equal(c(1, 2 ,2), c(NA, 2, 3), na.rm = TRUE))
+
+
   x <- seq(-10, 10, 0.2)
   expect_true(all(double_gte(x + 0.2, x - 0.2 + sqrt(0.2)^2 + 0.2)))
   expect_true(all(double_gt(x + 0.2, x - 0.2 + sqrt(0.2)^2 + 0.2)) == FALSE)
