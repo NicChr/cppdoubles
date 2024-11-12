@@ -5,65 +5,65 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// doubles.cpp
-SEXP cpp_double_equal_vectorised(SEXP x, SEXP y, SEXP tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_equal_vectorised(SEXP x, SEXP y, SEXP tolerance) {
+// cppdoubles.cpp
+SEXP cpp_double_equal(SEXP x, SEXP y, SEXP tolerance);
+extern "C" SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_equal_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
+    return cpp11::as_sexp(cpp_double_equal(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
   END_CPP11
 }
-// doubles.cpp
-SEXP cpp_double_gt_vectorised(SEXP x, SEXP y, SEXP tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_gt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
+// cppdoubles.cpp
+SEXP cpp_double_gt(SEXP x, SEXP y, SEXP tolerance);
+extern "C" SEXP _cppdoubles_cpp_double_gt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_gt_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
+    return cpp11::as_sexp(cpp_double_gt(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
   END_CPP11
 }
-// doubles.cpp
-SEXP cpp_double_gte_vectorised(SEXP x, SEXP y, SEXP tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_gte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
+// cppdoubles.cpp
+SEXP cpp_double_gte(SEXP x, SEXP y, SEXP tolerance);
+extern "C" SEXP _cppdoubles_cpp_double_gte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_gte_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
+    return cpp11::as_sexp(cpp_double_gte(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
   END_CPP11
 }
-// doubles.cpp
-SEXP cpp_double_lt_vectorised(SEXP x, SEXP y, SEXP tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_lt_vectorised(SEXP x, SEXP y, SEXP tolerance) {
+// cppdoubles.cpp
+SEXP cpp_double_lt(SEXP x, SEXP y, SEXP tolerance);
+extern "C" SEXP _cppdoubles_cpp_double_lt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_lt_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
+    return cpp11::as_sexp(cpp_double_lt(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
   END_CPP11
 }
-// doubles.cpp
-SEXP cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_lte_vectorised(SEXP x, SEXP y, SEXP tolerance) {
+// cppdoubles.cpp
+SEXP cpp_double_lte(SEXP x, SEXP y, SEXP tolerance);
+extern "C" SEXP _cppdoubles_cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_lte_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
+    return cpp11::as_sexp(cpp_double_lte(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance)));
   END_CPP11
 }
-// doubles.cpp
-SEXP cpp_double_rel_diff_vectorised(SEXP x, SEXP y);
-extern "C" SEXP _cppdoubles_cpp_double_rel_diff_vectorised(SEXP x, SEXP y) {
+// cppdoubles.cpp
+SEXP cpp_double_rel_diff(SEXP x, SEXP y);
+extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_rel_diff_vectorised(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y)));
+    return cpp11::as_sexp(cpp_double_rel_diff(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y)));
   END_CPP11
 }
-// doubles.cpp
-SEXP cpp_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm);
-extern "C" SEXP _cppdoubles_cpp_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
+// cppdoubles.cpp
+SEXP cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm);
+extern "C" SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_all_equal(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance), cpp11::as_cpp<cpp11::decay_t<SEXP>>(na_rm)));
+    return cpp11::as_sexp(cpp_double_all_equal(cpp11::as_cpp<cpp11::decay_t<SEXP>>(x), cpp11::as_cpp<cpp11::decay_t<SEXP>>(y), cpp11::as_cpp<cpp11::decay_t<SEXP>>(tolerance), cpp11::as_cpp<cpp11::decay_t<SEXP>>(na_rm)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_cppdoubles_cpp_all_equal",                  (DL_FUNC) &_cppdoubles_cpp_all_equal,                  4},
-    {"_cppdoubles_cpp_double_equal_vectorised",    (DL_FUNC) &_cppdoubles_cpp_double_equal_vectorised,    3},
-    {"_cppdoubles_cpp_double_gt_vectorised",       (DL_FUNC) &_cppdoubles_cpp_double_gt_vectorised,       3},
-    {"_cppdoubles_cpp_double_gte_vectorised",      (DL_FUNC) &_cppdoubles_cpp_double_gte_vectorised,      3},
-    {"_cppdoubles_cpp_double_lt_vectorised",       (DL_FUNC) &_cppdoubles_cpp_double_lt_vectorised,       3},
-    {"_cppdoubles_cpp_double_lte_vectorised",      (DL_FUNC) &_cppdoubles_cpp_double_lte_vectorised,      3},
-    {"_cppdoubles_cpp_double_rel_diff_vectorised", (DL_FUNC) &_cppdoubles_cpp_double_rel_diff_vectorised, 2},
+    {"_cppdoubles_cpp_double_all_equal", (DL_FUNC) &_cppdoubles_cpp_double_all_equal, 4},
+    {"_cppdoubles_cpp_double_equal",     (DL_FUNC) &_cppdoubles_cpp_double_equal,     3},
+    {"_cppdoubles_cpp_double_gt",        (DL_FUNC) &_cppdoubles_cpp_double_gt,        3},
+    {"_cppdoubles_cpp_double_gte",       (DL_FUNC) &_cppdoubles_cpp_double_gte,       3},
+    {"_cppdoubles_cpp_double_lt",        (DL_FUNC) &_cppdoubles_cpp_double_lt,        3},
+    {"_cppdoubles_cpp_double_lte",       (DL_FUNC) &_cppdoubles_cpp_double_lte,       3},
+    {"_cppdoubles_cpp_double_rel_diff",  (DL_FUNC) &_cppdoubles_cpp_double_rel_diff,  2},
     {NULL, NULL, 0}
 };
 }

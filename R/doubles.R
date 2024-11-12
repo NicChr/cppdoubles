@@ -86,8 +86,10 @@
   if (is.integer(x) && is.integer(y)){
     x == y
   } else {
-    cpp_double_equal_vectorised(as.double(x), as.double(y),
-                                as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
+    cpp_double_equal(
+      as.double(x), as.double(y),
+      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+    )
   }
 }
 #' @rdname doubles
@@ -96,8 +98,10 @@
   if (is.integer(x) && is.integer(y)){
     x >= y
   } else {
-    cpp_double_gte_vectorised(as.double(x), as.double(y),
-                              as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
+    cpp_double_gte(
+      as.double(x), as.double(y),
+      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+    )
   }
 }
 #' @rdname doubles
@@ -106,8 +110,10 @@
   if (is.integer(x) && is.integer(y)){
     x > y
   } else {
-    cpp_double_gt_vectorised(as.double(x), as.double(y),
-                             as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
+    cpp_double_gt(
+      as.double(x), as.double(y),
+      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+    )
   }
 }
 #' @rdname doubles
@@ -116,8 +122,10 @@
   if (is.integer(x) && is.integer(y)){
     x <= y
   } else {
-    cpp_double_lte_vectorised(as.double(x), as.double(y),
-                              as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
+    cpp_double_lte(
+      as.double(x), as.double(y),
+      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+    )
   }
 }
 #' @rdname doubles
@@ -126,8 +134,10 @@
   if (is.integer(x) && is.integer(y)){
     x < y
   } else {
-    cpp_double_lt_vectorised(as.double(x), as.double(y),
-                             as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))))
+    cpp_double_lt(
+      as.double(x), as.double(y),
+      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+    )
   }
 }
 #' @rdname doubles
@@ -136,7 +146,7 @@ double_equal <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Mac
   if (is.integer(x) && is.integer(y)){
     x == y
   } else {
-    cpp_double_equal_vectorised(as.double(x), as.double(y), as.double(tol))
+    cpp_double_equal(as.double(x), as.double(y), as.double(tol))
   }
 }
 #' @rdname doubles
@@ -145,7 +155,7 @@ double_gte <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machi
   if (is.integer(x) && is.integer(y)){
     x >= y
   } else {
-    cpp_double_gte_vectorised(as.double(x), as.double(y), as.double(tol))
+    cpp_double_gte(as.double(x), as.double(y), as.double(tol))
   }
 }
 #' @rdname doubles
@@ -154,7 +164,7 @@ double_gt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machin
   if (is.integer(x) && is.integer(y)){
     x > y
   } else {
-    cpp_double_gt_vectorised(as.double(x), as.double(y), as.double(tol))
+    cpp_double_gt(as.double(x), as.double(y), as.double(tol))
   }
 }
 #' @rdname doubles
@@ -163,7 +173,7 @@ double_lte <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machi
   if (is.integer(x) && is.integer(y)){
     x <= y
   } else {
-    cpp_double_lte_vectorised(as.double(x), as.double(y), as.double(tol))
+    cpp_double_lte(as.double(x), as.double(y), as.double(tol))
   }
 }
 #' @rdname doubles
@@ -172,7 +182,7 @@ double_lt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machin
   if (is.integer(x) && is.integer(y)){
     x < y
   } else {
-    cpp_double_lt_vectorised(as.double(x), as.double(y), as.double(tol))
+    cpp_double_lt(as.double(x), as.double(y), as.double(tol))
   }
 }
 

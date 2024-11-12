@@ -44,5 +44,5 @@
 #' @export
 all_equal <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)),
                       na.rm = FALSE){
-  cpp_all_equal(as.double(x), as.double(y), as.double(tol), na.rm)
+  cpp_double_all_equal(as.double(x), as.double(y), as.double(tol), as.logical(na.rm))
 }

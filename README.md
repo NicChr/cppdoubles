@@ -105,25 +105,25 @@ z <- x^2
 
 # 2 approximately equal vectors
 mean(rel_diff(x, y))
-#> [1] 7.761826e-17
+#> [1] 7.753906e-17
 mark(base = isTRUE(all.equal(x, y)),
      cppdoubles = all_equal(x, y))
 #> # A tibble: 2 × 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 base          259ms    264ms      3.79     437MB     13.3
-#> 2 cppdoubles    164ms    164ms      6.08        0B      0
+#> 1 base          365ms    376ms      2.66     437MB     9.31
+#> 2 cppdoubles    157ms    158ms      6.30        0B     0
 
 # 2 significantly different vectors
 mean(rel_diff(x, z))
-#> [1] 0.4627246
+#> [1] 0.4627931
 mark(base = isTRUE(all.equal(x, z)),
      cppdoubles = all_equal(x, z))
 #> # A tibble: 2 × 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 base        178.6ms  183.6ms      5.39     343MB     10.8
-#> 2 cppdoubles    2.1µs    2.3µs 403385.          0B      0
+#> 1 base        262.1ms  271.9ms      3.68     343MB     7.35
+#> 2 cppdoubles    2.3µs    2.5µs 362696.          0B     0
 ```
 
 Benchmark against using absolute differences
@@ -132,8 +132,8 @@ Benchmark against using absolute differences
 mark(double_equal(x, y),
      abs_diff(x, y) < sqrt(.Machine$double.eps))
 #> # A tibble: 2 × 6
-#>   expression                             min median `itr/sec` mem_alloc `gc/sec`
-#>   <bch:expr>                         <bch:t> <bch:>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                 177.5ms  178ms      5.59    38.1MB      0  
-#> 2 abs_diff(x, y) < sqrt(.Machine$do…  40.5ms   44ms     22.4    114.4MB     39.2
+#>   expression                            min  median `itr/sec` mem_alloc `gc/sec`
+#>   <bch:expr>                        <bch:t> <bch:t>     <dbl> <bch:byt>    <dbl>
+#> 1 double_equal(x, y)                170.4ms 171.3ms      5.82    38.1MB      0  
+#> 2 abs_diff(x, y) < sqrt(.Machine$d…  68.6ms  69.9ms     14.3    114.4MB     28.6
 ```
