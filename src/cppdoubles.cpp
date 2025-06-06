@@ -91,7 +91,7 @@ inline bool lte(double x, double y, double tol){
   return lt(x, y, tol) || equal(x, y, tol);
 }
 
-#define CPPDOUBLES_VECTORISED_COMPARISON(_func_)                     \
+#define CPPDOUBLES_VECTORISED_COMPARISON(FN)                         \
 R_xlen_t xn = x.size();                                              \
 R_xlen_t yn = y.size();                                              \
 R_xlen_t tn = tolerance.size();                                      \
@@ -109,14 +109,14 @@ for (i = xi = yi = ti = 0; i < n;                                    \
 xi = (++xi == xn) ? 0 : xi,                                          \
   yi = (++yi == yn) ? 0 : yi,                                        \
   ti = (++ti == tn) ? 0 : ti, ++i){                                  \
-  p_out[i] = _func_(p_x[xi], p_y[yi], p_t[ti]);                      \
+  p_out[i] = FN(p_x[xi], p_y[yi], p_t[ti]);                          \
   if (is_na(p_x[xi]) ||                                              \
       is_na(p_y[yi]) ||                                              \
       is_na(p_t[ti])){                                               \
     p_out[i] = NA_LOGICAL;                                           \
   }                                                                  \
 }                                                                    \
-return out;
+return out;                                                          \
 
 
 [[cpp11::register]]
