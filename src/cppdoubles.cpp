@@ -41,7 +41,7 @@ inline bool close_to_zero(double x, double tol){
   return std::fabs(x) < tol;
 }
 
-inline double rel_diff(double x, double y){
+double rel_diff(double x, double y){
   double ax = std::fabs(x);
   double ay = std::fabs(y);
 
@@ -52,7 +52,7 @@ inline double rel_diff(double x, double y){
 
 // Testing equality
 
-inline bool equal(double x, double y, double tol){
+bool equal(double x, double y, double tol){
   double ax = std::fabs(x);
   double ay = std::fabs(y);
   double adiff = abs_diff(x, y);
@@ -66,7 +66,7 @@ inline bool equal(double x, double y, double tol){
 }
 
 // Testing >, >=, < and <=
-inline bool gt(double x, double y, double tol){
+bool gt(double x, double y, double tol){
   double diff = (x - y);
   bool any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
   if (any_zeros || any_inf(x, y)){
@@ -75,7 +75,7 @@ inline bool gt(double x, double y, double tol){
     return (diff / std::fmax(std::fabs(x), std::fabs(y))) > tol;
   }
 }
-inline bool lt(double x, double y, double tol){
+bool lt(double x, double y, double tol){
   double diff = (x - y);
   bool any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
   if (any_zeros || any_inf(x, y)){
@@ -84,10 +84,10 @@ inline bool lt(double x, double y, double tol){
     return (diff / std::fmax(std::fabs(x), std::fabs(y))) < -tol;
   }
 }
-inline bool gte(double x, double y, double tol){
+bool gte(double x, double y, double tol){
   return gt(x, y, tol) || equal(x, y, tol);
 }
-inline bool lte(double x, double y, double tol){
+bool lte(double x, double y, double tol){
   return lt(x, y, tol) || equal(x, y, tol);
 }
 
