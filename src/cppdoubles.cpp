@@ -1,7 +1,8 @@
 #include <cpp11.hpp>
+using namespace cpp11;
 
 // Author: Nick Christofides
-// Date: 12-Nov-2024
+// Date: 06-June-2025
 // License: MIT License
 
 // Below are a complete set of C++ functions for comparing doubles
@@ -90,72 +91,71 @@ inline bool lte(double x, double y, double tol){
   return lt(x, y, tol) || equal(x, y, tol);
 }
 
-#define CPPDOUBLES_VECTORISED_COMPARISON(_func_)               \
-R_xlen_t xn = Rf_xlength(x);                                   \
-R_xlen_t yn = Rf_xlength(y);                                   \
-R_xlen_t tn = Rf_xlength(tolerance);                           \
-R_xlen_t n = std::max(std::max(xn, yn), tn);                   \
-if (xn <= 0 || yn <= 0 || tn <= 0){                            \
-  n = 0;                                                       \
-}                                                              \
-double *p_x = REAL(x);                                         \
-double *p_y = REAL(y);                                         \
-double *p_t = REAL(tolerance);                                 \
-SEXP out = Rf_protect(Rf_allocVector(LGLSXP, n));              \
-int *p_out = LOGICAL(out);                                     \
-R_xlen_t i, xi, yi, ti;                                        \
-for (i = xi = yi = ti = 0; i < n;                              \
-xi = (++xi == xn) ? 0 : xi,                                    \
-  yi = (++yi == yn) ? 0 : yi,                                  \
-  ti = (++ti == tn) ? 0 : ti, ++i){                            \
-  p_out[i] = _func_(p_x[xi], p_y[yi], p_t[ti]);                \
-  if (is_na(p_x[xi]) ||                             \
-      is_na(p_y[yi]) ||                             \
-      is_na(p_t[ti])){                              \
-    p_out[i] = NA_LOGICAL;                                     \
-  }                                                            \
-}                                                              \
-Rf_unprotect(1);                                               \
-return out;                                                    \
+#define CPPDOUBLES_VECTORISED_COMPARISON(_func_)                     \
+R_xlen_t xn = x.size();                                              \
+R_xlen_t yn = y.size();                                              \
+R_xlen_t tn = tolerance.size();                                      \
+R_xlen_t n = std::max(std::max(xn, yn), tn);                         \
+if (xn <= 0 || yn <= 0 || tn <= 0){                                  \
+  n = 0;                                                             \
+}                                                                    \
+const double *p_x = REAL(x);                                         \
+const double *p_y = REAL(y);                                         \
+const double *p_t = REAL(tolerance);                                 \
+writable::logicals out(n);                                           \
+int *p_out = LOGICAL(out);                                           \
+R_xlen_t i, xi, yi, ti;                                              \
+for (i = xi = yi = ti = 0; i < n;                                    \
+xi = (++xi == xn) ? 0 : xi,                                          \
+  yi = (++yi == yn) ? 0 : yi,                                        \
+  ti = (++ti == tn) ? 0 : ti, ++i){                                  \
+  p_out[i] = _func_(p_x[xi], p_y[yi], p_t[ti]);                      \
+  if (is_na(p_x[xi]) ||                                              \
+      is_na(p_y[yi]) ||                                              \
+      is_na(p_t[ti])){                                               \
+    p_out[i] = NA_LOGICAL;                                           \
+  }                                                                  \
+}                                                                    \
+return out;
 
 
 [[cpp11::register]]
-SEXP cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
+logicals cpp_double_equal(doubles x, doubles y, doubles tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(equal)
 }
 
 [[cpp11::register]]
-SEXP cpp_double_gt(SEXP x, SEXP y, SEXP tolerance) {
+logicals cpp_double_gt(doubles x, doubles y, doubles tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(gt)
 }
 
 [[cpp11::register]]
-SEXP cpp_double_gte(SEXP x, SEXP y, SEXP tolerance) {
+logicals cpp_double_gte(doubles x, doubles y, doubles tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(gte)
 }
 
 [[cpp11::register]]
-SEXP cpp_double_lt(SEXP x, SEXP y, SEXP tolerance) {
+logicals cpp_double_lt(doubles x, doubles y, doubles tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(lt)
 }
 
 [[cpp11::register]]
-SEXP cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
+logicals cpp_double_lte(doubles x, doubles y, doubles tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(lte)
 }
 
 [[cpp11::register]]
-SEXP cpp_double_rel_diff(SEXP x, SEXP y){
-  R_xlen_t xn = Rf_xlength(x);
-  R_xlen_t yn = Rf_xlength(y);
+doubles cpp_double_rel_diff(doubles x, doubles y){
+  R_xlen_t xn = x.size();
+  R_xlen_t yn = y.size();
   R_xlen_t n = std::max(xn, yn);
   if (xn <= 0 || yn <= 0){
     // Avoid loop if any are length zero vectors
     n = 0;
   }
-  double *p_x = REAL(x);
-  double *p_y = REAL(y);
-  SEXP out = Rf_protect(Rf_allocVector(REALSXP, n));
+  const double *p_x = REAL(x);
+  const double *p_y = REAL(y);
+  writable::doubles out(n);
   double *p_out = REAL(out);
   R_xlen_t i, xi, yi;
   for (i = xi = yi = 0; i < n;
@@ -163,30 +163,29 @@ SEXP cpp_double_rel_diff(SEXP x, SEXP y){
     yi = (++yi == yn) ? 0 : yi, ++i){
     p_out[i] = rel_diff(p_x[xi], p_y[yi]);
   }
-  Rf_unprotect(1);
   return out;
 }
 
 [[cpp11::register]]
-SEXP cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
-  if (Rf_length(na_rm) != 1 || !Rf_isLogical(na_rm)){
-    Rf_error("na.rm must be a logical vector of length 1");
+logicals cpp_double_all_equal(doubles x, doubles y, doubles tolerance, logicals na_rm) {
+  if (na_rm.size() != 1){
+    stop("`na.rm` must be a logical vector of length 1");
   }
-  bool skip_na = Rf_asLogical(na_rm);
+  bool skip_na = na_rm[0];
   bool has_na;
-  R_xlen_t xn = Rf_xlength(x);
-  R_xlen_t yn = Rf_xlength(y);
-  R_xlen_t tn = Rf_xlength(tolerance);
+  R_xlen_t xn = x.size();
+  R_xlen_t yn = y.size();
+  R_xlen_t tn = tolerance.size();
   R_xlen_t n = std::max(std::max(xn, yn), tn);
   if (xn <= 0 || yn <= 0 || tn <= 0){
     // Avoid loop if any are length zero vectors
     n = 0;
   }
-  double *p_x = REAL(x);
-  double *p_y = REAL(y);
+  const double *p_x = REAL(x);
+  const double *p_y = REAL(y);
   double *p_t = REAL(tolerance);
-  SEXP out = Rf_protect(Rf_allocVector(LGLSXP, 1));
-  LOGICAL(out)[0] = TRUE;
+  writable::logicals out(1);
+  out[0] = true;
   R_xlen_t i, xi, yi, ti;
   for (i = xi = yi = ti = 0; i < n;
   xi = (++xi == xn) ? 0 : xi,
@@ -199,15 +198,14 @@ SEXP cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
       if (skip_na){
         continue;
       } else {
-        LOGICAL(out)[0] = NA_LOGICAL;
+        out[0] = NA_LOGICAL;
         break;
       }
     }
     if ( !equal(p_x[xi], p_y[yi], p_t[ti]) ){
-      LOGICAL(out)[0] = FALSE;
+      out[0] = false;
       break;
     }
   }
-  Rf_unprotect(1);
   return out;
 }
