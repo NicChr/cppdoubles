@@ -10,76 +10,83 @@
 // Relative differences are used except when either x or y is very close to zero
 // in which case absolute differences are used
 
-#define DOUBLE_IS_NA(x) ( (double) (x != x))
+#ifndef DOUBLE_EPS
+#define DOUBLE_EPS std::numeric_limits<double>::epsilon()
+#endif
 
-bool both_same_inf(double x, double y){
+#ifndef DEFAULT_TOL
+#define DEFAULT_TOL std::sqrt(std::numeric_limits<double>::epsilon())
+#endif
+
+inline bool is_na(double x){
+  return x != x;
+}
+
+inline bool is_inf(double x){
+  return std::fabs(x) == R_PosInf;
+}
+
+inline bool both_same_inf(double x, double y){
   return (x == R_PosInf && y == R_PosInf) || (x == R_NegInf && y == R_NegInf);
 }
-bool any_inf(double x, double y){
-  return x == R_PosInf || y == R_PosInf || x == R_NegInf || y == R_NegInf;
+inline bool any_inf(double x, double y){
+  return is_inf(x) || is_inf(y);
 }
-double abs_diff(double x, double y){
+inline double abs_diff(double x, double y){
   return std::fabs(x - y);
 }
-double rel_diff(double x, double y){
-  double tol = std::sqrt(std::numeric_limits<double>::epsilon());
+
+inline bool close_to_zero(double x, double tol){
+  return std::fabs(x) < tol;
+}
+
+inline double rel_diff(double x, double y){
   double ax = std::fabs(x);
   double ay = std::fabs(y);
 
-  if (ax < tol && ay < tol){
-    return 0.0;
-  } else {
-    return abs_diff(x, y) / std::fmax(ax, ay);
-  }
-}
-bool any_zero(double x, double y, double tol){
-  return ( std::fabs(x) < tol ) || ( std::fabs(y) < tol );
+  return (close_to_zero(ax, DEFAULT_TOL) && close_to_zero(ay, DEFAULT_TOL)) ?
+  0.0 :
+    abs_diff(x, y) / std::fmax(ax, ay);
 }
 
 // Testing equality
 
-bool equal(double x, double y, double tol){
+inline bool equal(double x, double y, double tol){
   double ax = std::fabs(x);
   double ay = std::fabs(y);
-  bool any_zero = ( ax < tol ) || ( ay < tol );
-  double adiff = std::fabs(x - y);
-  double rdiff = adiff / std::fmax(ax, ay);
-  double out;
-  if (any_zero){
-    out = (adiff < tol);
-  } else {
-    out = both_same_inf(x, y) || (rdiff < tol);
-  }
-  return out;
+  double adiff = abs_diff(x, y);
+
+  // If any are close to zero use absolute diff, otherwise relative diff
+
+  return ( ax < tol ) || ( ay < tol ) ?
+  adiff < tol :
+    both_same_inf(x, y) ||
+      ( (adiff / std::fmax(ax, ay)) < tol); // Relative diff
 }
 
 // Testing >, >=, < and <=
-bool gt(double x, double y, double tol){
-  double out;
+inline bool gt(double x, double y, double tol){
   double diff = (x - y);
-  bool any_zeros = any_zero(x, y, tol);
+  bool any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
   if (any_zeros || any_inf(x, y)){
-    out = diff > tol;
+    return diff > tol;
   } else {
-    out = (diff / std::fmax(std::fabs(x), std::fabs(y))) > tol;
+    return (diff / std::fmax(std::fabs(x), std::fabs(y))) > tol;
   }
-  return out;
 }
-bool lt(double x, double y, double tol){
-  double out;
+inline bool lt(double x, double y, double tol){
   double diff = (x - y);
-  bool any_zeros = any_zero(x, y, tol);
+  bool any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
   if (any_zeros || any_inf(x, y)){
-    out = diff < -tol;
+    return diff < -tol;
   } else {
-    out = (diff / std::fmax(std::fabs(x), std::fabs(y))) < -tol;
+    return (diff / std::fmax(std::fabs(x), std::fabs(y))) < -tol;
   }
-  return out;
 }
-bool gte(double x, double y, double tol){
+inline bool gte(double x, double y, double tol){
   return gt(x, y, tol) || equal(x, y, tol);
 }
-bool lte(double x, double y, double tol){
+inline bool lte(double x, double y, double tol){
   return lt(x, y, tol) || equal(x, y, tol);
 }
 
@@ -102,9 +109,9 @@ xi = (++xi == xn) ? 0 : xi,                                    \
   yi = (++yi == yn) ? 0 : yi,                                  \
   ti = (++ti == tn) ? 0 : ti, ++i){                            \
   p_out[i] = _func_(p_x[xi], p_y[yi], p_t[ti]);                \
-  if (DOUBLE_IS_NA(p_x[xi]) ||                             \
-      DOUBLE_IS_NA(p_y[yi]) ||                             \
-      DOUBLE_IS_NA(p_t[ti])){                              \
+  if (is_na(p_x[xi]) ||                             \
+      is_na(p_y[yi]) ||                             \
+      is_na(p_t[ti])){                              \
     p_out[i] = NA_LOGICAL;                                     \
   }                                                            \
 }                                                              \
@@ -159,6 +166,7 @@ SEXP cpp_double_rel_diff(SEXP x, SEXP y){
   Rf_unprotect(1);
   return out;
 }
+
 [[cpp11::register]]
 SEXP cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   if (Rf_length(na_rm) != 1 || !Rf_isLogical(na_rm)){
@@ -184,9 +192,9 @@ SEXP cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   xi = (++xi == xn) ? 0 : xi,
     yi = (++yi == yn) ? 0 : yi,
     ti = (++ti == tn) ? 0 : ti, ++i){
-    has_na = DOUBLE_IS_NA(p_x[xi]) ||
-      DOUBLE_IS_NA(p_y[yi]) ||
-      DOUBLE_IS_NA(p_t[ti]);
+    has_na = is_na(p_x[xi]) ||
+      is_na(p_y[yi]) ||
+      is_na(p_t[ti]);
     if (has_na){
       if (skip_na){
         continue;

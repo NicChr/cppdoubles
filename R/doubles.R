@@ -88,7 +88,7 @@
   } else {
     cpp_double_equal(
       as.double(x), as.double(y),
-      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+      as.double(get_tolerance())
     )
   }
 }
@@ -100,7 +100,7 @@
   } else {
     cpp_double_gte(
       as.double(x), as.double(y),
-      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+      as.double(get_tolerance())
     )
   }
 }
@@ -112,7 +112,7 @@
   } else {
     cpp_double_gt(
       as.double(x), as.double(y),
-      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+      as.double(get_tolerance())
     )
   }
 }
@@ -124,7 +124,7 @@
   } else {
     cpp_double_lte(
       as.double(x), as.double(y),
-      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+      as.double(get_tolerance())
     )
   }
 }
@@ -136,13 +136,13 @@
   } else {
     cpp_double_lt(
       as.double(x), as.double(y),
-      as.double(getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)))
+      as.double(get_tolerance())
     )
   }
 }
 #' @rdname doubles
 #' @export
-double_equal <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+double_equal <- function(x, y, tol = get_tolerance()){
   if (is.integer(x) && is.integer(y)){
     x == y
   } else {
@@ -151,7 +151,7 @@ double_equal <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Mac
 }
 #' @rdname doubles
 #' @export
-double_gte <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+double_gte <- function(x, y, tol = get_tolerance()){
   if (is.integer(x) && is.integer(y)){
     x >= y
   } else {
@@ -160,7 +160,7 @@ double_gte <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machi
 }
 #' @rdname doubles
 #' @export
-double_gt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+double_gt <- function(x, y, tol = get_tolerance()){
   if (is.integer(x) && is.integer(y)){
     x > y
   } else {
@@ -169,7 +169,7 @@ double_gt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machin
 }
 #' @rdname doubles
 #' @export
-double_lte <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+double_lte <- function(x, y, tol = get_tolerance()){
   if (is.integer(x) && is.integer(y)){
     x <= y
   } else {
@@ -178,7 +178,7 @@ double_lte <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machi
 }
 #' @rdname doubles
 #' @export
-double_lt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+double_lt <- function(x, y, tol = get_tolerance()){
   if (is.integer(x) && is.integer(y)){
     x < y
   } else {
@@ -186,3 +186,8 @@ double_lt <- function(x, y, tol = getOption("cppdoubles.tolerance", sqrt(.Machin
   }
 }
 
+.default_tol <- sqrt(.Machine$double.eps)
+
+get_tolerance <- function(){
+  getOption("cppdoubles.tolerance", .default_tol)
+}

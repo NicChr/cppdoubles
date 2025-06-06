@@ -1,5 +1,17 @@
 # cppdoubles (development version)
 
+### Changes
+
+- The default argument for `tol` now uses a helper `get_tolerance()`.
+
+### Internal updates
+
+- Inlined most of the simple C++ functions which provides some moderate
+speed improvements.
+
+- Some C++ functions were returning double when they should return bool. This
+has now been fixed.
+
 # cppdoubles 0.3.0
 
 ### Breaking changes

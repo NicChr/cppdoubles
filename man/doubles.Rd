@@ -23,35 +23,15 @@ x \%~<=\% y
 
 x \%~<\% y
 
-double_equal(
-  x,
-  y,
-  tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))
-)
+double_equal(x, y, tol = get_tolerance())
 
-double_gte(
-  x,
-  y,
-  tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))
-)
+double_gte(x, y, tol = get_tolerance())
 
-double_gt(
-  x,
-  y,
-  tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))
-)
+double_gt(x, y, tol = get_tolerance())
 
-double_lte(
-  x,
-  y,
-  tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))
-)
+double_lte(x, y, tol = get_tolerance())
 
-double_lt(
-  x,
-  y,
-  tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))
-)
+double_lt(x, y, tol = get_tolerance())
 }
 \arguments{
 \item{x}{A \link{double} vector.}
