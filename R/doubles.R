@@ -76,7 +76,7 @@
 #'              tol = c(-Inf, 1e-10, Inf))
 #'
 #' # One can check for whole numbers like so
-#' whole_number <- function(x, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+#' whole_number <- function(x, tol = get_tolerance()){
 #'   double_equal(x, round(x))
 #' }
 #' whole_number(seq(-5, 5, 0.25))

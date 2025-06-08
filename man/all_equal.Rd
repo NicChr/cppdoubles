@@ -4,12 +4,7 @@
 \alias{all_equal}
 \title{Are all values of x nearly equal (within a tolerance) to all values of y?}
 \usage{
-all_equal(
-  x,
-  y,
-  tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps)),
-  na.rm = FALSE
-)
+all_equal(x, y, tol = get_tolerance(), na.rm = FALSE)
 }
 \arguments{
 \item{x}{A \link{double} vector.}
