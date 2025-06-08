@@ -41,13 +41,16 @@ inline bool close_to_zero(double x, double tol){
   return std::fabs(x) < tol;
 }
 
-double rel_diff(double x, double y){
+double rel_diff(double x, double y, double scale){
   double ax = std::fabs(x);
   double ay = std::fabs(y);
+  scale = is_na(scale) ? std::fmax(ax, ay) : scale;
 
-  return (close_to_zero(ax, DEFAULT_TOL) && close_to_zero(ay, DEFAULT_TOL)) ?
-  0.0 :
-    abs_diff(x, y) / std::fmax(ax, ay);
+  if (close_to_zero(ax, DEFAULT_TOL) && close_to_zero(ay, DEFAULT_TOL)){
+    return 0.0;
+  } else {
+    return abs_diff(x / scale, y / scale);
+  }
 }
 
 // Testing equality
@@ -91,32 +94,32 @@ bool lte(double x, double y, double tol){
   return lt(x, y, tol) || equal(x, y, tol);
 }
 
-#define CPPDOUBLES_VECTORISED_COMPARISON(FN)                         \
-R_xlen_t xn = x.size();                                              \
-R_xlen_t yn = y.size();                                              \
-R_xlen_t tn = tolerance.size();                                      \
-R_xlen_t n = std::max(std::max(xn, yn), tn);                         \
-if (xn <= 0 || yn <= 0 || tn <= 0){                                  \
-  n = 0;                                                             \
-}                                                                    \
-const double *p_x = REAL(x);                                         \
-const double *p_y = REAL(y);                                         \
-const double *p_t = REAL(tolerance);                                 \
-writable::logicals out(n);                                           \
-int *p_out = LOGICAL(out);                                           \
-R_xlen_t i, xi, yi, ti;                                              \
-for (i = xi = yi = ti = 0; i < n;                                    \
-xi = (++xi == xn) ? 0 : xi,                                          \
-  yi = (++yi == yn) ? 0 : yi,                                        \
-  ti = (++ti == tn) ? 0 : ti, ++i){                                  \
-  p_out[i] = FN(p_x[xi], p_y[yi], p_t[ti]);                          \
-  if (is_na(p_x[xi]) ||                                              \
-      is_na(p_y[yi]) ||                                              \
-      is_na(p_t[ti])){                                               \
-    p_out[i] = NA_LOGICAL;                                           \
-  }                                                                  \
-}                                                                    \
-return out;                                                          \
+#define CPPDOUBLES_VECTORISED_COMPARISON(FN)                                      \
+R_xlen_t xn = x.size();                                                           \
+R_xlen_t yn = y.size();                                                           \
+R_xlen_t tn = tolerance.size();                                                   \
+R_xlen_t n = std::max(std::max(xn, yn), tn);                                      \
+if (xn <= 0 || yn <= 0 || tn <= 0){                                               \
+  n = 0;                                                                          \
+}                                                                                 \
+const double *p_x = REAL_RO(x);                                                   \
+const double *p_y = REAL_RO(y);                                                   \
+const double *p_t = REAL_RO(tolerance);                                           \
+writable::logicals out(n);                                                        \
+int* __restrict__ p_out = LOGICAL(out);                                           \
+R_xlen_t i, xi, yi, ti;                                                           \
+for (i = xi = yi = ti = 0; i < n;                                                 \
+xi = (++xi == xn) ? 0 : xi,                                                       \
+  yi = (++yi == yn) ? 0 : yi,                                                     \
+  ti = (++ti == tn) ? 0 : ti, ++i){                                               \
+  p_out[i] = FN(p_x[xi], p_y[yi], p_t[ti]);                                       \
+  if (is_na(p_x[xi]) ||                                                           \
+      is_na(p_y[yi]) ||                                                           \
+      is_na(p_t[ti])){                                                            \
+    p_out[i] = NA_LOGICAL;                                                        \
+  }                                                                               \
+}                                                                                 \
+return out;                                                                       \
 
 
 [[cpp11::register]]
@@ -145,23 +148,28 @@ logicals cpp_double_lte(doubles x, doubles y, doubles tolerance) {
 }
 
 [[cpp11::register]]
-doubles cpp_double_rel_diff(doubles x, doubles y){
+doubles cpp_double_rel_diff(doubles x, doubles y, doubles scale){
   R_xlen_t xn = x.size();
   R_xlen_t yn = y.size();
-  R_xlen_t n = std::max(xn, yn);
-  if (xn <= 0 || yn <= 0){
-    // Avoid loop if any are length zero vectors
+  R_xlen_t sn = scale.size();
+  R_xlen_t n = std::max(std::max(xn, yn), sn);
+  if (xn <= 0 || yn <= 0 || sn <= 0){
     n = 0;
   }
-  const double *p_x = REAL(x);
-  const double *p_y = REAL(y);
+  const double *p_x = REAL_RO(x);
+  const double *p_y = REAL_RO(y);
+  const double *p_s = REAL_RO(scale);
+
   writable::doubles out(n);
-  double *p_out = REAL(out);
-  R_xlen_t i, xi, yi;
-  for (i = xi = yi = 0; i < n;
+
+  double* __restrict__ p_out = REAL(out);
+
+  R_xlen_t i, xi, yi, si;
+  for (i = xi = yi = si = 0; i < n;
   xi = (++xi == xn) ? 0 : xi,
-    yi = (++yi == yn) ? 0 : yi, ++i){
-    p_out[i] = rel_diff(p_x[xi], p_y[yi]);
+    yi = (++yi == yn) ? 0 : yi,
+    si = (++si == sn) ? 0 : si, ++i){
+    p_out[i] = rel_diff(p_x[xi], p_y[yi], p_s[si]);
   }
   return out;
 }
@@ -181,11 +189,13 @@ logicals cpp_double_all_equal(doubles x, doubles y, doubles tolerance, logicals 
     // Avoid loop if any are length zero vectors
     n = 0;
   }
-  const double *p_x = REAL(x);
-  const double *p_y = REAL(y);
-  double *p_t = REAL(tolerance);
+  const double *p_x = REAL_RO(x);
+  const double *p_y = REAL_RO(y);
+  const double *p_t = REAL_RO(tolerance);
+
   writable::logicals out(1);
   out[0] = true;
+
   R_xlen_t i, xi, yi, ti;
   for (i = xi = yi = ti = 0; i < n;
   xi = (++xi == xn) ? 0 : xi,

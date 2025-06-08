@@ -20,8 +20,8 @@ cpp_double_lte <- function(x, y, tolerance) {
   .Call(`_cppdoubles_cpp_double_lte`, x, y, tolerance)
 }
 
-cpp_double_rel_diff <- function(x, y) {
-  .Call(`_cppdoubles_cpp_double_rel_diff`, x, y)
+cpp_double_rel_diff <- function(x, y, scale) {
+  .Call(`_cppdoubles_cpp_double_rel_diff`, x, y, scale)
 }
 
 cpp_double_all_equal <- function(x, y, tolerance, na_rm) {

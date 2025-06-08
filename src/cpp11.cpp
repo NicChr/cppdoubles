@@ -41,10 +41,10 @@ extern "C" SEXP _cppdoubles_cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
   END_CPP11
 }
 // doubles.cpp
-doubles cpp_double_rel_diff(doubles x, doubles y);
-extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y) {
+doubles cpp_double_rel_diff(doubles x, doubles y, doubles scale);
+extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y, SEXP scale) {
   BEGIN_CPP11
-    return cpp11::as_sexp(cpp_double_rel_diff(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y)));
+    return cpp11::as_sexp(cpp_double_rel_diff(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y), cpp11::as_cpp<cpp11::decay_t<doubles>>(scale)));
   END_CPP11
 }
 // doubles.cpp
@@ -63,7 +63,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_cppdoubles_cpp_double_gte",       (DL_FUNC) &_cppdoubles_cpp_double_gte,       3},
     {"_cppdoubles_cpp_double_lt",        (DL_FUNC) &_cppdoubles_cpp_double_lt,        3},
     {"_cppdoubles_cpp_double_lte",       (DL_FUNC) &_cppdoubles_cpp_double_lte,       3},
-    {"_cppdoubles_cpp_double_rel_diff",  (DL_FUNC) &_cppdoubles_cpp_double_rel_diff,  2},
+    {"_cppdoubles_cpp_double_rel_diff",  (DL_FUNC) &_cppdoubles_cpp_double_rel_diff,  3},
     {NULL, NULL, 0}
 };
 }

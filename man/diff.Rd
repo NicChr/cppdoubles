@@ -5,7 +5,7 @@
 \alias{abs_diff}
 \title{Absolute and relative difference}
 \usage{
-rel_diff(x, y)
+rel_diff(x, y, scale = NA_real_)
 
 abs_diff(x, y)
 }
@@ -13,6 +13,9 @@ abs_diff(x, y)
 \item{x}{A \link{double} vector.}
 
 \item{y}{A \link{double} vector.}
+
+\item{scale}{A \link{double} vector.
+When \code{NA}, the scale is calculated as \code{max(abs(x), abs(y))}.}
 }
 \value{
 A numeric vector.
@@ -20,4 +23,32 @@ A numeric vector.
 \description{
 Calculate absolute differences with \code{abs_diff()} and
 relative differences with \code{rel_diff()}
+}
+\details{
+\subsection{Relative difference}{
+
+The relative difference in this package is calculated as
+\code{abs_diff(x / scale, y / scale)} except in the case that both
+\code{x} and \code{y} are approximately 0 which results in 1.
+
+The scale is calculated as \code{max(abs(x), abs(y))} by default when
+scale is \code{NA}.
+This has the nice property of making \code{rel_diff()} a commutative function
+in which the order of the arguments doesn't matter. You can of course
+supply your own scale.
+}
+
+\subsection{Comparison with \code{all.equal()}}{
+
+As mentioned above, unlike \code{base::all.equal()}, \code{rel_diff()} is commutative.
+To match the relative difference calculation used by \code{all.equal()},
+simply set \code{scale = x}.
+
+Therefore, to make a vectorised binary version of \code{all.equal()},
+we can write for example the following:
+
+\preformatted{
+  all.equal2 <- \(x, y, tol = get_tolerance()) rel_diff(x, y, scale = x) < tol
+}
+}
 }

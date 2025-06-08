@@ -1,4 +1,8 @@
-options("cppdoubles.tolerance" = sqrt(.Machine$double.eps))
+set_tolerance(sqrt(.Machine$double.eps))
+
+test_that("Check tolerance set correctly", {
+  expect_identical(get_tolerance(), sqrt(.Machine$double.eps))
+})
 
 test_that("Integers", {
   set.seed(1000)
@@ -27,9 +31,32 @@ test_that("Integers", {
                          x < y)
 })
 
-test_that("Differences", {
+test_that("Relative difference with zeroes", {
 
   expect_equal(rel_diff(0, 0), 0)
+
+  expect_equal(rel_diff(2, 0), 1)
+  expect_equal(rel_diff(0, 2), 1)
+  expect_equal(rel_diff(-2, 0), 1)
+  expect_equal(rel_diff(0, -2), 1)
+
+  expect_equal(rel_diff(0.2, 0), 1)
+  expect_equal(rel_diff(0, 0.2), 1)
+  expect_equal(rel_diff(-0.2, 0), 1)
+  expect_equal(rel_diff(0, -0.2), 1)
+})
+
+
+test_that("Commutativity", {
+  expect_equal(rel_diff(3.25, 2.25), rel_diff(2.25, 3.25))
+})
+
+test_that("Different signs", {
+  expect_equal(rel_diff(-3.25, 2.25), rel_diff(3.25, -2.25))
+  expect_equal(rel_diff(2.25, -3.25), rel_diff(-3.25, 2.25))
+})
+
+test_that("Differences", {
 
   expect_equal(rel_diff(10^-8, 2 * 10^-8),
                          rel_diff(2 * 10^-8, 10^-8))
