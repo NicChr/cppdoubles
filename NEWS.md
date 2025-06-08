@@ -1,8 +1,13 @@
 # cppdoubles (development version)
 
+### New features
+
+- `get_tolerance` and `set_tolerance` as helpers to get/set the package-wide
+tolerance.
+
 ### Changes
 
-- The default argument for `tol` now uses a helper `get_tolerance()`.
+- The default argument for `tol` now uses `get_tolerance()`.
 
 ### Internal updates
 

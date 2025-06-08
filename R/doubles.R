@@ -185,9 +185,3 @@ double_lt <- function(x, y, tol = get_tolerance()){
     cpp_double_lt(as.double(x), as.double(y), as.double(tol))
   }
 }
-
-.default_tol <- sqrt(.Machine$double.eps)
-
-get_tolerance <- function(){
-  getOption("cppdoubles.tolerance", .default_tol)
-}
