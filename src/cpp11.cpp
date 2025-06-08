@@ -5,49 +5,49 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// cppdoubles.cpp
+// doubles.cpp
 logicals cpp_double_equal(doubles x, doubles y, doubles tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_double_equal(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y), cpp11::as_cpp<cpp11::decay_t<doubles>>(tolerance)));
   END_CPP11
 }
-// cppdoubles.cpp
+// doubles.cpp
 logicals cpp_double_gt(doubles x, doubles y, doubles tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_gt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_double_gt(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y), cpp11::as_cpp<cpp11::decay_t<doubles>>(tolerance)));
   END_CPP11
 }
-// cppdoubles.cpp
+// doubles.cpp
 logicals cpp_double_gte(doubles x, doubles y, doubles tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_gte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_double_gte(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y), cpp11::as_cpp<cpp11::decay_t<doubles>>(tolerance)));
   END_CPP11
 }
-// cppdoubles.cpp
+// doubles.cpp
 logicals cpp_double_lt(doubles x, doubles y, doubles tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_lt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_double_lt(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y), cpp11::as_cpp<cpp11::decay_t<doubles>>(tolerance)));
   END_CPP11
 }
-// cppdoubles.cpp
+// doubles.cpp
 logicals cpp_double_lte(doubles x, doubles y, doubles tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_double_lte(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y), cpp11::as_cpp<cpp11::decay_t<doubles>>(tolerance)));
   END_CPP11
 }
-// cppdoubles.cpp
+// doubles.cpp
 doubles cpp_double_rel_diff(doubles x, doubles y);
 extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y) {
   BEGIN_CPP11
     return cpp11::as_sexp(cpp_double_rel_diff(cpp11::as_cpp<cpp11::decay_t<doubles>>(x), cpp11::as_cpp<cpp11::decay_t<doubles>>(y)));
   END_CPP11
 }
-// cppdoubles.cpp
+// doubles.cpp
 logicals cpp_double_all_equal(doubles x, doubles y, doubles tolerance, logicals na_rm);
 extern "C" SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   BEGIN_CPP11
