@@ -29,13 +29,29 @@ relative differences with \code{rel_diff()}
 
 The relative difference in this package is calculated as
 \code{abs_diff(x / scale, y / scale)} except in the case that both
-\code{x} and \code{y} are approximately 0 which results in 1.
+\code{x} and \code{y} are approximately 0 which results in 0.
 
 The scale is calculated as \code{max(abs(x), abs(y))} by default when
 scale is \code{NA}.
 This has the nice property of making \code{rel_diff()} a commutative function
 in which the order of the arguments doesn't matter. You can of course
 supply your own scale.
+
+For info, an R way to calculate the relative difference is as follows
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{  r_rel_diff <- function(x, y)\{
+    ax <- abs(x)
+    ay <- abs(y)
+    scale <- pmax(ax, ay)
+    ifelse(
+      ax < sqrt(.Machine$double.eps) & ay < sqrt(.Machine$double.eps),
+      0,
+      abs_diff(x / scale, y / scale)
+    )
+  \}
+}\if{html}{\out{</div>}}
+
+This is much slower than the C++ written \code{rel_diff}.
 }
 
 \subsection{Comparison with \code{all.equal()}}{

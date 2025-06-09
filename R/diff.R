@@ -15,13 +15,30 @@
 #'
 #' The relative difference in this package is calculated as
 #' `abs_diff(x / scale, y / scale)` except in the case that both
-#' `x` and `y` are approximately 0 which results in 1.
+#' `x` and `y` are approximately 0 which results in 0.
 #'
 #' The scale is calculated as `max(abs(x), abs(y))` by default when
 #' scale is `NA`.
 #' This has the nice property of making `rel_diff()` a commutative function
 #' in which the order of the arguments doesn't matter. You can of course
 #' supply your own scale.
+#'
+#' For info, an R way to calculate the relative difference is as follows
+#'
+#' ``` {r}
+#'   r_rel_diff <- function(x, y){
+#'     ax <- abs(x)
+#'     ay <- abs(y)
+#'     scale <- pmax(ax, ay)
+#'     ifelse(
+#'       ax < sqrt(.Machine$double.eps) & ay < sqrt(.Machine$double.eps),
+#'       0,
+#'       abs_diff(x / scale, y / scale)
+#'     )
+#'   }
+#'   ```
+#'
+#' This is much slower than the C++ written `rel_diff`.
 #'
 #' ## Comparison with `all.equal()`
 #'
