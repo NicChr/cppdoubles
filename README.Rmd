@@ -72,7 +72,7 @@ One can check if a double is a whole number like so
 
 ```{r}
 # One can check for whole numbers like so
-whole_number <- function(x, tol = getOption("cppdoubles.tolerance", sqrt(.Machine$double.eps))){
+whole_number <- function(x, tol = get_tolerance()){
   double_equal(x, round(x), tol = tol)
 }
 x <- seq(-5, 5, by = 0.2)
@@ -96,6 +96,7 @@ Benchmark against `all.equal.numeric`
 
 ```{r}
 library(bench)
+set.seed(100)
 x <- abs(rnorm(10^7))
 y <- sqrt(x)^2
 z <- x^2
@@ -112,7 +113,7 @@ mark(base = isTRUE(all.equal(x, z)),
 ```
 
 
-Benchmark against using absolute differences
+Benchmark against using absolute differences 
 
 ```{r}
 mark(double_equal(x, y),

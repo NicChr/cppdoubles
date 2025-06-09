@@ -1,4 +1,4 @@
-* Updated to version 0.3.0
+* Updated to version 0.4.0
 
 ## revdepcheck results
 

@@ -1,9 +1,12 @@
-# cppdoubles (development version)
+# cppdoubles 0.4.0
 
 ### New features
 
 - `get_tolerance` and `set_tolerance` as helpers to get/set the package-wide
 tolerance.
+
+- New argument `scale` added to `rel_diff` to allow users to optionally
+specify a scale for each relative difference.
 
 ### Changes
 
