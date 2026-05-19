@@ -83,105 +83,50 @@
 #' @rdname doubles
 #' @export
 `%~==%` <- function(x, y){
-  if (is.integer(x) && is.integer(y)){
-    x == y
-  } else {
-    cpp_double_equal(
-      as.double(x), as.double(y),
-      as.double(get_tolerance())
-    )
-  }
+  .Call(`_cppdoubles_cpp_double_equal`, x, y, get_tolerance())
 }
 #' @rdname doubles
 #' @export
 `%~>=%` <- function(x, y){
-  if (is.integer(x) && is.integer(y)){
-    x >= y
-  } else {
-    cpp_double_gte(
-      as.double(x), as.double(y),
-      as.double(get_tolerance())
-    )
-  }
+  .Call(`_cppdoubles_cpp_double_gte`, x, y, get_tolerance())
 }
 #' @rdname doubles
 #' @export
 `%~>%` <- function(x, y){
-  if (is.integer(x) && is.integer(y)){
-    x > y
-  } else {
-    cpp_double_gt(
-      as.double(x), as.double(y),
-      as.double(get_tolerance())
-    )
-  }
+  .Call(`_cppdoubles_cpp_double_gt`, x, y, get_tolerance())
 }
 #' @rdname doubles
 #' @export
 `%~<=%` <- function(x, y){
-  if (is.integer(x) && is.integer(y)){
-    x <= y
-  } else {
-    cpp_double_lte(
-      as.double(x), as.double(y),
-      as.double(get_tolerance())
-    )
-  }
+  .Call(`_cppdoubles_cpp_double_lte`, x, y, get_tolerance())
 }
 #' @rdname doubles
 #' @export
 `%~<%` <- function(x, y){
-  if (is.integer(x) && is.integer(y)){
-    x < y
-  } else {
-    cpp_double_lt(
-      as.double(x), as.double(y),
-      as.double(get_tolerance())
-    )
-  }
+  .Call(`_cppdoubles_cpp_double_lt`, x, y, get_tolerance())
 }
 #' @rdname doubles
 #' @export
 double_equal <- function(x, y, tol = get_tolerance()){
-  if (is.integer(x) && is.integer(y)){
-    x == y
-  } else {
-    cpp_double_equal(as.double(x), as.double(y), as.double(tol))
-  }
+  .Call(`_cppdoubles_cpp_double_equal`, x, y, tol)
 }
 #' @rdname doubles
 #' @export
 double_gte <- function(x, y, tol = get_tolerance()){
-  if (is.integer(x) && is.integer(y)){
-    x >= y
-  } else {
-    cpp_double_gte(as.double(x), as.double(y), as.double(tol))
-  }
+  .Call(`_cppdoubles_cpp_double_gte`, x, y, tol)
 }
 #' @rdname doubles
 #' @export
 double_gt <- function(x, y, tol = get_tolerance()){
-  if (is.integer(x) && is.integer(y)){
-    x > y
-  } else {
-    cpp_double_gt(as.double(x), as.double(y), as.double(tol))
-  }
+  .Call(`_cppdoubles_cpp_double_gt`, x, y, tol)
 }
 #' @rdname doubles
 #' @export
 double_lte <- function(x, y, tol = get_tolerance()){
-  if (is.integer(x) && is.integer(y)){
-    x <= y
-  } else {
-    cpp_double_lte(as.double(x), as.double(y), as.double(tol))
-  }
+  .Call(`_cppdoubles_cpp_double_lte`, x, y, tol)
 }
 #' @rdname doubles
 #' @export
 double_lt <- function(x, y, tol = get_tolerance()){
-  if (is.integer(x) && is.integer(y)){
-    x < y
-  } else {
-    cpp_double_lt(as.double(x), as.double(y), as.double(tol))
-  }
+  .Call(`_cppdoubles_cpp_double_lt`, x, y, tol)
 }

@@ -139,9 +139,9 @@ r_lgl lte(r_dbl x, r_dbl y, r_dbl tol){
 }
 
 #define CPPDOUBLES_VECTORISED_COMPARISON(FN)                                                \
-r_size_t xn = x.length();                                                                     \
-r_size_t yn = y.length();                                                                     \
-r_size_t tn = tolerance.length();                                                             \
+r_size_t xn = x.length();                                                                   \
+r_size_t yn = y.length();                                                                   \
+r_size_t tn = tolerance.length();                                                           \
 r_size_t n = std::max(std::max(xn, yn), tn);                                                \
 if (xn <= 0 || yn <= 0 || tn <= 0){                                                         \
   n = 0;                                                                                    \
