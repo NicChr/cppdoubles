@@ -313,4 +313,4 @@ docs/
 *.o
 *.so
 *.dll
-
+.vscode
