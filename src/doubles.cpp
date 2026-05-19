@@ -11,82 +11,131 @@ using namespace cppally;
 // Relative differences are used except when either x or y is very close to zero
 // in which case absolute differences are used
 
-constexpr r_dbl default_tol(){
-  return r_limits<r_dbl>::tolerance();
+constexpr double default_tol(){
+  return unwrap(r_limits<r_dbl>::tolerance());
 }
 
-r_lgl is_inf(r_dbl x){
-  return abs(x) == pos_inf;
+bool is_inf(double x){
+  return std::abs(x) == unwrap(pos_inf);
 }
 
-r_lgl both_same_inf(r_dbl x, r_dbl y){
-  return (x == pos_inf && y == pos_inf) || (x == neg_inf && y == neg_inf);
+bool both_same_inf(double x, double y){
+  return (x == unwrap(pos_inf) && y == unwrap(pos_inf)) || (x == unwrap(neg_inf) && y == unwrap(neg_inf));
 }
-r_lgl any_inf(r_dbl x, r_dbl y){
+bool any_inf(double x, double y){
   return is_inf(x) || is_inf(y);
 }
 
-r_lgl close_to_zero(r_dbl x, r_dbl tol){
-  return abs(x) <= tol;
+bool close_to_zero(double x, double tol){
+  return std::abs(x) <= tol;
 }
 
 r_dbl rel_diff(r_dbl x, r_dbl y, r_dbl scale){
-  r_dbl ax = abs(x);
-  r_dbl ay = abs(y);
-  scale = is_na(scale) ? max(ax, ay) : scale;
 
-  if ( (close_to_zero(ax, default_tol()) && close_to_zero(ay, default_tol())).is_true() ) {
-    return r_dbl(0.0);
-  } else {
-    return abs_diff(x / scale, y / scale);
+  if (is_na(x) || is_na(y)){
+    return na<r_dbl>();
   }
+  
+  double x_ = x;
+  double y_ = y;
+  double tol = default_tol();
+  double a = std::abs(x_);
+  double b = std::abs(y_);
+
+  if (is_na(scale)){
+    scale = r_dbl(std::max(a, b));
+  }
+
+  double c = scale;
+ 
+  if (a < tol && b < tol){
+    return r_dbl(0.0);
+  }
+
+  if ( c == 0.0 ){
+    return r_dbl(1.0);
+  }
+  
+  return r_dbl(std::abs((x_ / c) - (y_ / c)));
+
 }
 
 // Testing equality
 
 r_lgl equal(r_dbl x, r_dbl y, r_dbl tol){
-  r_dbl ax = abs(x);
-  r_dbl ay = abs(y);
-  r_dbl adiff = abs_diff(x, y);
+
+  // Check exact equality first
+  r_lgl eq = x == y;
+  if (eq.is_true()){
+    return eq;
+  }
+
+  if (is_na(eq) || is_na(tol)){
+    return r_na;
+  }
+
+  double x_ = x;
+  double y_ = y;
+  double tol_ = tol;
+
+  double ax = std::abs(x_);
+  double ay = std::abs(y_);
+  double adiff = std::abs(x_ - y_);
 
   // If any are close to zero use absolute diff, otherwise relative diff
-  if ( ((ax <= tol) || (ay <= tol) || any_inf(x, y)).is_true() ) {
-    if (both_same_inf(x, y).is_true()){
-      return r_true;
-   } else {
-    return adiff <= tol;
-   }
-  } else {
-    return (adiff / max(ax, ay)) <= tol;
-  }
+  if ((ax <= tol_) || (ay <= tol_) ||
+    ax == unwrap(pos_inf) || 
+    ay == unwrap(neg_inf)){
+      return r_lgl(adiff <= tol_);
+    } else {
+      return r_lgl((adiff / std::max(ax, ay)) <= tol_);
+    }
 }
 
 // Testing >, >=, < and <=
 r_lgl gt(r_dbl x, r_dbl y, r_dbl tol){
-  r_dbl diff = (x - y);
-  r_lgl any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
-  if ( (any_zeros || any_inf(x, y)).is_true() ){
-    if (both_same_inf(x, y).is_true()) return r_false;
-    return diff > tol;
+  if (is_na(x) || is_na(y) || is_na(tol)){
+    return r_na;
+  }
+  double x_ = x;
+  double y_ = y;
+  double tol_ = tol;
+  double diff = x_ - y_;
+  bool any_zeros = close_to_zero(x, tol_) || close_to_zero(y, tol_);
+  if ( any_zeros || any_inf(x_, y_) ){
+    if (both_same_inf(x_, y_)){
+      return r_false;
+    } else {
+      return r_lgl(diff > tol_);
+    }
   } else {
-    return (diff / max(abs(x), abs(y))) > tol;
+    return r_lgl((diff / std::max(std::abs(x_), std::abs(y_))) > tol_);
   }
 }
 r_lgl lt(r_dbl x, r_dbl y, r_dbl tol){
-  r_dbl diff = (x - y);
-  r_lgl any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
-  if ( (any_zeros || any_inf(x, y)).is_true() ){
-    if (both_same_inf(x, y).is_true()) return r_false;
-    return diff < -tol;
+  if (is_na(x) || is_na(y) || is_na(tol)){
+    return r_na;
+  }
+  double x_ = x;
+  double y_ = y;
+  double tol_ = tol;
+  double diff = x_ - y_;
+  bool any_zeros = close_to_zero(x, tol_) || close_to_zero(y, tol_);
+  if ( any_zeros || any_inf(x_, y_) ){
+    if (both_same_inf(x_, y_)){
+      return r_false;
+    } else {
+      return r_lgl(diff < -tol_);
+    }
   } else {
-    return (diff / max(abs(x), abs(y))) < -tol;
+    return r_lgl((diff / std::max(std::abs(x_), std::abs(y_))) < -tol_);
   }
 }
 r_lgl gte(r_dbl x, r_dbl y, r_dbl tol){
-  return gt(x, y, tol) || equal(x, y, tol);
+  return equal(x, y, tol) || gt(x, y, tol);
 }
 r_lgl lte(r_dbl x, r_dbl y, r_dbl tol){
-  return lt(x, y, tol) || equal(x, y, tol);
+  return equal(x, y, tol) || lt(x, y, tol);
 }
 
 #define CPPDOUBLES_VECTORISED_COMPARISON(FN)                                                \
