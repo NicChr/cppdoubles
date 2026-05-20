@@ -63,5 +63,5 @@ rel_diff <- function(x, y, scale = NA_real_){
 #' @rdname diff
 #' @export
 abs_diff <- function(x, y){
-  abs(x - y)
+  .Call(`_cppdoubles_cpp_double_abs_diff`, x, y)
 }
