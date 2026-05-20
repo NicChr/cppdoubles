@@ -12,6 +12,14 @@ using internal::cpp_to_sexp;
 using internal::dispatch_template_impl;
 
 // doubles.cpp
+void set_cppdoubles_threads(int n);
+extern "C" SEXP _cppdoubles_set_cppdoubles_threads(SEXP n) {
+  BEGIN_CPPALLY
+  ::set_cppdoubles_threads(as<int>(n));
+  return R_NilValue;
+  END_CPPALLY
+}
+// doubles.cpp
 r_vec<r_lgl> cpp_double_equal(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
@@ -54,6 +62,13 @@ extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y, SEXP scale) {
   END_CPPALLY
 }
 // doubles.cpp
+r_vec<r_dbl> cpp_double_abs_diff(r_vec<r_dbl> x, r_vec<r_dbl> y);
+extern "C" SEXP _cppdoubles_cpp_double_abs_diff(SEXP x, SEXP y) {
+  BEGIN_CPPALLY
+  return cpp_to_sexp(::cpp_double_abs_diff(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y)));
+  END_CPPALLY
+}
+// doubles.cpp
 r_lgl cpp_double_all_equal(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance, r_lgl na_rm);
 extern "C" SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   BEGIN_CPPALLY
@@ -63,13 +78,15 @@ extern "C" SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance,
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_cppdoubles_cpp_double_all_equal", (DL_FUNC) &_cppdoubles_cpp_double_all_equal, 4},
-    {"_cppdoubles_cpp_double_equal",     (DL_FUNC) &_cppdoubles_cpp_double_equal,     3},
-    {"_cppdoubles_cpp_double_gt",        (DL_FUNC) &_cppdoubles_cpp_double_gt,        3},
-    {"_cppdoubles_cpp_double_gte",       (DL_FUNC) &_cppdoubles_cpp_double_gte,       3},
-    {"_cppdoubles_cpp_double_lt",        (DL_FUNC) &_cppdoubles_cpp_double_lt,        3},
-    {"_cppdoubles_cpp_double_lte",       (DL_FUNC) &_cppdoubles_cpp_double_lte,       3},
-    {"_cppdoubles_cpp_double_rel_diff",  (DL_FUNC) &_cppdoubles_cpp_double_rel_diff,  3},
+    {"_cppdoubles_cpp_double_abs_diff",    (DL_FUNC) &_cppdoubles_cpp_double_abs_diff,    2},
+    {"_cppdoubles_cpp_double_all_equal",   (DL_FUNC) &_cppdoubles_cpp_double_all_equal,   4},
+    {"_cppdoubles_cpp_double_equal",       (DL_FUNC) &_cppdoubles_cpp_double_equal,       3},
+    {"_cppdoubles_cpp_double_gt",          (DL_FUNC) &_cppdoubles_cpp_double_gt,          3},
+    {"_cppdoubles_cpp_double_gte",         (DL_FUNC) &_cppdoubles_cpp_double_gte,         3},
+    {"_cppdoubles_cpp_double_lt",          (DL_FUNC) &_cppdoubles_cpp_double_lt,          3},
+    {"_cppdoubles_cpp_double_lte",         (DL_FUNC) &_cppdoubles_cpp_double_lte,         3},
+    {"_cppdoubles_cpp_double_rel_diff",    (DL_FUNC) &_cppdoubles_cpp_double_rel_diff,    3},
+    {"_cppdoubles_set_cppdoubles_threads", (DL_FUNC) &_cppdoubles_set_cppdoubles_threads, 1},
     {NULL, NULL, 0}
 };
 }

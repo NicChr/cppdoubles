@@ -1,4 +1,5 @@
 set_tolerance(sqrt(.Machine$double.eps))
+set_cppdoubles_threads(2)
 
 test_that("Check tolerance set correctly", {
   expect_identical(get_tolerance(), sqrt(.Machine$double.eps))
