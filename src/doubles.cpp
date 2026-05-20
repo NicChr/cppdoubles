@@ -166,6 +166,20 @@ if (n >= 100000 && xn == yn && tn == 1){                                        
     for (r_size_t i = 0; i < n; ++i){                                                                                     \
       out.set(i, FN(x.get(i), y.get(i), tol));                                                                            \
     }                                                                                                                     \
+} else if (n >= 100000 && yn == 1 && tn == 1){                                                                            \
+  r_dbl y_ = y.get(0);                                                                                                    \
+  r_dbl tol = tolerance.get(0);                                                                                           \
+  OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())                                                                         \
+    for (r_size_t i = 0; i < n; ++i){                                                                                     \
+      out.set(i, FN(x.get(i), y_, tol));                                                                                  \
+    }                                                                                                                     \
+} else if (n >= 100000 && xn == 1 && tn == 1){                                                                            \
+  r_dbl x_ = x.get(0);                                                                                                    \
+  r_dbl tol = tolerance.get(0);                                                                                           \
+  OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())                                                                         \
+    for (r_size_t i = 0; i < n; ++i){                                                                                     \
+      out.set(i, FN(x_, y.get(i), tol));                                                                                  \
+    }                                                                                                                     \
 } else {                                                                                                                  \
   r_size_t i, xi, yi, ti;                                                                                                 \
   for (i = xi = yi = ti = 0; i < n;                                                                                       \
