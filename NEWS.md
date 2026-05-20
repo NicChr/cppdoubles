@@ -1,4 +1,9 @@
-# cppdoubles (development version)
+# cppdoubles 0.5.0
+
+- cppdoubles has migrated its C++ dependency from cpp11 to cppally.
+
+- Major speed improvements to most functions through the use of 
+parallelisation and compiler optimisations. 
 
 # cppdoubles 0.4.0
 
