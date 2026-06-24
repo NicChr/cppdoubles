@@ -18,59 +18,50 @@ static int cppdoubles_threads = std::max(1, static_cast<int>(cppally::max_thread
 [[cppally::register]]
 void set_cppdoubles_threads(int n){
   cppdoubles_threads = std::max(1, std::min(cppally::max_threads(), n));
+  cppally::set_threads(cppdoubles_threads);
 }
 
 int get_cppdoubles_threads(){
   return cppdoubles_threads;
-} 
-
-constexpr double default_tol(){
-  return unwrap(r_limits<r_dbl>::tolerance());
 }
 
-bool is_inf(double x) noexcept {
-  return std::abs(x) == unwrap(pos_inf);
+constexpr r_dbl default_tol(){
+  return r_limits<r_dbl>::tolerance();
 }
 
-bool both_same_inf(double x, double y) noexcept {
-  return (x == unwrap(pos_inf) && y == unwrap(pos_inf)) || (x == unwrap(neg_inf) && y == unwrap(neg_inf));
+r_lgl is_inf(r_dbl x) noexcept {
+  return abs(x) == pos_inf;
 }
-bool any_inf(double x, double y) noexcept {
+
+r_lgl both_same_inf(r_dbl x, r_dbl y) noexcept {
+  return (x == pos_inf && y == pos_inf) || (x == neg_inf && y == neg_inf);
+}
+r_lgl any_inf(r_dbl x, r_dbl y) noexcept {
   return is_inf(x) || is_inf(y);
 }
 
-bool close_to_zero(double x, double tol) noexcept {
-  return std::abs(x) <= tol;
+r_lgl close_to_zero(r_dbl x, r_dbl tol) noexcept {
+  return abs(x) <= tol;
 }
 
 r_dbl rel_diff(r_dbl x, r_dbl y, r_dbl scale) noexcept {
 
-  if (is_na(x) || is_na(y)){
-    return na<r_dbl>();
-  }
-
-  double x_ = x;
-  double y_ = y;
-  double tol = default_tol();
-  double a = std::abs(x_);
-  double b = std::abs(y_);
+  r_dbl ax = abs(x);
+  r_dbl ay = abs(y);
 
   if (is_na(scale)){
-    scale = r_dbl(std::max(a, b));
+    scale = max(ax, ay);
   }
 
-  double c = scale;
-
-  if (a < tol && b < tol){
+  if ( (ax < default_tol() && ay < default_tol()).is_true()){
     return r_dbl(0.0);
   }
 
-  if ( c == 0.0 ){
+  if (identical(scale, r_dbl(0.0))){
     return r_dbl(1.0);
   }
 
-  return r_dbl(std::abs((x_ / c) - (y_ / c)));
-
+  return abs((x / scale) - (y / scale));
 }
 
 // Testing equality
@@ -83,65 +74,44 @@ r_lgl equal(r_dbl x, r_dbl y, r_dbl tol) noexcept {
     return eq;
   }
 
-  if (is_na(eq) || is_na(tol)){
-    return r_na;
-  }
-
-  double x_ = x;
-  double y_ = y;
-  double tol_ = tol;
-
-  double ax = std::abs(x_);
-  double ay = std::abs(y_);
-  double adiff = std::abs(x_ - y_);
+  r_dbl ax = abs(x);
+  r_dbl ay = abs(y);
+  r_dbl adiff = abs(x - y);
 
   // If any are close to zero use absolute diff, otherwise relative diff
-  if ((ax <= tol_) || (ay <= tol_) ||
-    ax == unwrap(pos_inf) ||
-    ay == unwrap(pos_inf)){
-      return r_lgl(adiff <= tol_);
+  r_lgl use_abs_diff = ax <= tol || ay <= tol || ax == pos_inf || ay == pos_inf;
+  if (use_abs_diff.is_true()){
+      return adiff <= tol;
     } else {
-      return r_lgl((adiff / std::max(ax, ay)) <= tol_);
+      return (adiff / max(ax, ay)) <= tol;
     }
 }
 
 // Testing >, >=, < and <=
 r_lgl gt(r_dbl x, r_dbl y, r_dbl tol) noexcept {
-  if (is_na(x) || is_na(y) || is_na(tol)){
-    return r_na;
-  }
-  double x_ = x;
-  double y_ = y;
-  double tol_ = tol;
-  double diff = x_ - y_;
-  bool any_zeros = close_to_zero(x, tol_) || close_to_zero(y, tol_);
-  if ( any_zeros || any_inf(x_, y_) ){
-    if (both_same_inf(x_, y_)){
+  r_dbl diff = x - y;
+  r_lgl any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
+  if ( (any_zeros || any_inf(x, y)).is_true() ){
+    if (both_same_inf(x, y).is_true()){
       return r_false;
     } else {
-      return r_lgl(diff > tol_);
+      return diff > tol;
     }
   } else {
-    return r_lgl((diff / std::max(std::abs(x_), std::abs(y_))) > tol_);
+    return (diff / max(abs(x), abs(y))) > tol;
   }
 }
 r_lgl lt(r_dbl x, r_dbl y, r_dbl tol) noexcept {
-  if (is_na(x) || is_na(y) || is_na(tol)){
-    return r_na;
-  }
-  double x_ = x;
-  double y_ = y;
-  double tol_ = tol;
-  double diff = x_ - y_;
-  bool any_zeros = close_to_zero(x, tol_) || close_to_zero(y, tol_);
-  if ( any_zeros || any_inf(x_, y_) ){
-    if (both_same_inf(x_, y_)){
+  r_dbl diff = x - y;
+  r_lgl any_zeros = close_to_zero(x, tol) || close_to_zero(y, tol);
+  if ( (any_zeros || any_inf(x, y)).is_true() ){
+    if (both_same_inf(x, y).is_true()){
       return r_false;
     } else {
-      return r_lgl(diff < -tol_);
+      return diff < -tol;
     }
   } else {
-    return r_lgl((diff / std::max(std::abs(x_), std::abs(y_))) < -tol_);
+    return (diff / max(abs(x), abs(y))) < -tol;
   }
 }
 r_lgl gte(r_dbl x, r_dbl y, r_dbl tol) noexcept {
@@ -152,45 +122,26 @@ r_lgl lte(r_dbl x, r_dbl y, r_dbl tol) noexcept {
 }
 
 #define CPPDOUBLES_VECTORISED_COMPARISON(FN)                                                                              \
-r_size_t xn = x.length();                                                                                                 \
-r_size_t yn = y.length();                                                                                                 \
-r_size_t tn = tolerance.length();                                                                                         \
-r_size_t n = std::max(std::max(xn, yn), tn);                                                                              \
-if (xn <= 0 || yn <= 0 || tn <= 0){                                                                                       \
-  n = 0;                                                                                                                  \
-}                                                                                                                         \
-r_vec<r_lgl> out(n);                                                                                                      \
-if (n >= 100000 && xn == yn && tn == 1){                                                                                  \
-  r_dbl tol = tolerance.get(0);                                                                                           \
-  OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())                                                                         \
-    for (r_size_t i = 0; i < n; ++i){                                                                                     \
-      out.set(i, FN(x.get(i), y.get(i), tol));                                                                            \
-    }                                                                                                                     \
-} else if (n >= 100000 && yn == 1 && tn == 1){                                                                            \
-  r_dbl y_ = y.get(0);                                                                                                    \
-  r_dbl tol = tolerance.get(0);                                                                                           \
-  OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())                                                                         \
-    for (r_size_t i = 0; i < n; ++i){                                                                                     \
-      out.set(i, FN(x.get(i), y_, tol));                                                                                  \
-    }                                                                                                                     \
-} else if (n >= 100000 && xn == 1 && tn == 1){                                                                            \
+if (x.length() == 1){                                                                                                     \
   r_dbl x_ = x.get(0);                                                                                                    \
+  return pmap_parallel_simd([x_](auto b, auto c) noexcept {                                                               \
+    return FN(x_, b, c);                                                                                                  \
+  }, y, tolerance);                                                                                                       \
+} else if (y.length() == 1){                                                                                              \
+  r_dbl y_ = y.get(0);                                                                                                    \
+  return pmap_parallel_simd([y_](auto a, auto c) noexcept {                                                               \
+    return FN(a, y_, c);                                                                                                  \
+  }, x, tolerance);                                                                                                       \
+} else if (tolerance.length() == 1){                                                                                      \
   r_dbl tol = tolerance.get(0);                                                                                           \
-  OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())                                                                         \
-    for (r_size_t i = 0; i < n; ++i){                                                                                     \
-      out.set(i, FN(x_, y.get(i), tol));                                                                                  \
-    }                                                                                                                     \
+  return pmap_parallel_simd([tol](auto a, auto b) noexcept {                                                              \
+    return FN(a, b, tol);                                                                                                 \
+  }, x, y);                                                                                                               \
 } else {                                                                                                                  \
-  r_size_t i, xi, yi, ti;                                                                                                 \
-  for (i = xi = yi = ti = 0; i < n;                                                                                       \
-  recycle_index(xi, xn),                                                                                                  \
-  recycle_index(yi, yn),                                                                                                  \
-  recycle_index(ti, tn),                                                                                                  \
-  ++i){                                                                                                                   \
-    out.set(i, FN(x.get(xi), y.get(yi), tolerance.get(ti)));                                                              \
-  }                                                                                                                       \
-}                                                                                                                         \
-return out;
+  return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {                                                         \
+    return FN(a, b, c);                                                                                                   \
+  }, x, y, tolerance);                                                                                                    \
+}
 
 
 [[cppally::register]]
@@ -220,60 +171,45 @@ r_vec<r_lgl> cpp_double_lte(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> toleran
 
 [[cppally::register]]
 r_vec<r_dbl> cpp_double_rel_diff(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> scale) {
-  r_size_t xn = x.length();
-  r_size_t yn = y.length();
-  r_size_t sn = scale.length();
-  r_size_t n = std::max(std::max(xn, yn), sn);
-  if (xn <= 0 || yn <= 0 || sn <= 0){
-    n = 0;
+  if (x.length() == 1){                                                                                                     
+    r_dbl x_ = x.get(0);                                                                                                    
+    return pmap_parallel_simd([x_](auto b, auto c) noexcept {                                                               
+      return rel_diff(x_, b, c);                                                                                                  
+    }, y, scale);                                                                                                       
+  } else if (y.length() == 1){                                                                                              
+    r_dbl y_ = y.get(0);                                                                                                    
+    return pmap_parallel_simd([y_](auto a, auto c) noexcept {                                                               
+      return rel_diff(a, y_, c);                                                                                                  
+    }, x, scale);                                                                                                       
+  } else if (scale.length() == 1){                                                                                      
+    r_dbl sc = scale.get(0);                                                                                           
+    return pmap_parallel_simd([sc](auto a, auto b) noexcept {                                                              
+      return rel_diff(a, b, sc);                                                                                                 
+    }, x, y);                                                                                                               
+  } else {                                                                                                                  
+    return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {                                                         
+      return rel_diff(a, b, c);                                                                                                   
+    }, x, y, scale);                                                                                                    
   }
-
-  r_vec<r_dbl> out(n);
-
-  if (n >= 100000 && xn == yn && sn == 1){
-    r_dbl sc = scale.get(0);
-    OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())
-    for (r_size_t i = 0; i < n; ++i){
-      out.set(i, rel_diff(x.get(i), y.get(i), sc));
-    }
-  } else {
-    r_size_t i, xi, yi, si;
-    for (i = xi = yi = si = 0; i < n;
-      recycle_index(xi, xn),
-      recycle_index(yi, yn),
-      recycle_index(si, sn),
-      ++i){
-      out.set(i, rel_diff(x.get(xi), y.get(yi), scale.get(si)));
-    }
-  }
-  return out;
 }
 
 [[cppally::register]]
 r_vec<r_dbl> cpp_double_abs_diff(r_vec<r_dbl> x, r_vec<r_dbl> y) {
-  r_size_t xn = x.length();
-  r_size_t yn = y.length();
-  r_size_t n = std::max(xn, yn);
-  if (xn <= 0 || yn <= 0){
-    n = 0;
-  }
-
-  r_vec<r_dbl> out(n);
-
-  if (n >= 100000 && xn == yn){
-    OMP_PARALLEL_FOR_SIMD(get_cppdoubles_threads())
-    for (r_size_t i = 0; i < n; ++i){
-      out.set(i, abs(x.get(i) - y.get(i)));
-    }
+  if (x.length() == 1){
+    r_dbl x_ = x.get(0);
+    return pmap_parallel_simd([x_](auto b) noexcept {                                                         
+      return abs(x_ - b);
+    }, y);
+  } else if (y.length() == 1){
+    r_dbl y_ = y.get(0);
+    return pmap_parallel_simd([y_](auto a) noexcept {                                                         
+      return abs(a - y_);
+    }, x);
   } else {
-    for (r_size_t i = 0, xi = 0, yi = 0; i < n;
-      recycle_index(xi, xn),
-      recycle_index(yi, yn),
-      ++i){
-      out.set(i, abs(x.get(xi) - y.get(yi)));
-    }
+    return pmap_parallel_simd([](auto a, auto b) noexcept {                                                         
+      return abs(a - b);
+    }, x, y);
   }
-  return out;
 }
 
 [[cppally::register]]
