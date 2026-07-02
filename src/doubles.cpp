@@ -121,76 +121,59 @@ r_lgl lte(r_dbl x, r_dbl y, r_dbl tol) noexcept {
   return equal(x, y, tol) || lt(x, y, tol);
 }
 
-#define CPPDOUBLES_VECTORISED_COMPARISON(FN)                                                                              \
-if (x.length() == 1){                                                                                                     \
-  r_dbl x_ = x.get(0);                                                                                                    \
-  return pmap_parallel_simd([x_](auto b, auto c) noexcept {                                                               \
-    return FN(x_, b, c);                                                                                                  \
-  }, y, tolerance);                                                                                                       \
-} else if (y.length() == 1){                                                                                              \
-  r_dbl y_ = y.get(0);                                                                                                    \
-  return pmap_parallel_simd([y_](auto a, auto c) noexcept {                                                               \
-    return FN(a, y_, c);                                                                                                  \
-  }, x, tolerance);                                                                                                       \
-} else if (tolerance.length() == 1){                                                                                      \
-  r_dbl tol = tolerance.get(0);                                                                                           \
-  return pmap_parallel_simd([tol](auto a, auto b) noexcept {                                                              \
-    return FN(a, b, tol);                                                                                                 \
-  }, x, y);                                                                                                               \
-} else {                                                                                                                  \
-  return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {                                                         \
-    return FN(a, b, c);                                                                                                   \
-  }, x, y, tolerance);                                                                                                    \
+template <auto FN>
+auto do_vectorised(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& z) {
+  if (x.length() == 1){
+    r_dbl x_ = x.get(0);
+    return pmap_parallel_simd([x_](auto b, auto c) noexcept {
+      return FN(x_, b, c);
+    }, y, z);
+  } else if (y.length() == 1){
+    r_dbl y_ = y.get(0);
+    return pmap_parallel_simd([y_](auto a, auto c) noexcept {
+      return FN(a, y_, c);
+    }, x, z);
+  } else if (z.length() == 1){
+    r_dbl z_ = z.get(0);
+    return pmap_parallel_simd([z_](auto a, auto b) noexcept {
+      return FN(a, b, z_);
+    }, x, y);
+  } else {
+    return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {
+      return FN(a, b, c);
+    }, x, y, z);
+  }
 }
 
 
 [[cppally::register]]
 r_vec<r_lgl> cpp_double_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
-  CPPDOUBLES_VECTORISED_COMPARISON(equal)
+  return do_vectorised<equal>(x, y, tolerance);
 }
 
 [[cppally::register]]
 r_vec<r_lgl> cpp_double_gt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
-  CPPDOUBLES_VECTORISED_COMPARISON(gt)
+  return do_vectorised<gt>(x, y, tolerance);
 }
 
 [[cppally::register]]
 r_vec<r_lgl> cpp_double_gte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
-  CPPDOUBLES_VECTORISED_COMPARISON(gte)
+  return do_vectorised<gte>(x, y, tolerance);
 }
 
 [[cppally::register]]
 r_vec<r_lgl> cpp_double_lt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
-  CPPDOUBLES_VECTORISED_COMPARISON(lt)
+  return do_vectorised<lt>(x, y, tolerance);
 }
 
 [[cppally::register]]
 r_vec<r_lgl> cpp_double_lte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
-  CPPDOUBLES_VECTORISED_COMPARISON(lte)
+  return do_vectorised<lte>(x, y, tolerance);
 }
 
 [[cppally::register]]
 r_vec<r_dbl> cpp_double_rel_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& scale) {
-  if (x.length() == 1){
-    r_dbl x_ = x.get(0);
-    return pmap_parallel_simd([x_](auto b, auto c) noexcept {
-      return rel_diff(x_, b, c);
-    }, y, scale);
-  } else if (y.length() == 1){
-    r_dbl y_ = y.get(0);
-    return pmap_parallel_simd([y_](auto a, auto c) noexcept {
-      return rel_diff(a, y_, c);
-    }, x, scale);
-  } else if (scale.length() == 1){
-    r_dbl sc = scale.get(0);
-    return pmap_parallel_simd([sc](auto a, auto b) noexcept {
-      return rel_diff(a, b, sc);
-    }, x, y);
-  } else {
-    return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {
-      return rel_diff(a, b, c);
-    }, x, y, scale);
-  }
+  return do_vectorised<rel_diff>(x, y, scale);
 }
 
 [[cppally::register]]
