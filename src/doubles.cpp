@@ -11,18 +11,18 @@ using namespace cppally;
 // Relative differences are used except when either x or y is very close to zero
 // in which case absolute differences are used
 
-// Start off with half the available threads
-static int cppdoubles_threads = std::max(1, static_cast<int>(cppally::max_threads() / 2));
-
 // Set threads for use via R - needed for unit testing as CRAN only allows a maximum of 2 threads
 [[cppally::register]]
 void set_cppdoubles_threads(int n){
-  cppdoubles_threads = std::max(1, std::min(cppally::max_threads(), n));
-  cppally::set_threads(cppdoubles_threads);
+  int n_threads = std::max(1, std::min(cppally::max_threads(), n));
+  cppally::set_threads(n_threads);
 }
 
-int get_cppdoubles_threads(){
-  return cppdoubles_threads;
+// Start off with a quarter of the available threads
+[[cppally::init]]
+void init_threads(DllInfo* dll){
+  int n_threads = std::max(1, static_cast<int>(cppally::max_threads() / 4));
+  set_cppdoubles_threads(n_threads);
 }
 
 constexpr r_dbl default_tol(){
@@ -171,25 +171,25 @@ r_vec<r_lgl> cpp_double_lte(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> toleran
 
 [[cppally::register]]
 r_vec<r_dbl> cpp_double_rel_diff(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> scale) {
-  if (x.length() == 1){                                                                                                     
-    r_dbl x_ = x.get(0);                                                                                                    
-    return pmap_parallel_simd([x_](auto b, auto c) noexcept {                                                               
-      return rel_diff(x_, b, c);                                                                                                  
-    }, y, scale);                                                                                                       
-  } else if (y.length() == 1){                                                                                              
-    r_dbl y_ = y.get(0);                                                                                                    
-    return pmap_parallel_simd([y_](auto a, auto c) noexcept {                                                               
-      return rel_diff(a, y_, c);                                                                                                  
-    }, x, scale);                                                                                                       
-  } else if (scale.length() == 1){                                                                                      
-    r_dbl sc = scale.get(0);                                                                                           
-    return pmap_parallel_simd([sc](auto a, auto b) noexcept {                                                              
-      return rel_diff(a, b, sc);                                                                                                 
-    }, x, y);                                                                                                               
-  } else {                                                                                                                  
-    return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {                                                         
-      return rel_diff(a, b, c);                                                                                                   
-    }, x, y, scale);                                                                                                    
+  if (x.length() == 1){
+    r_dbl x_ = x.get(0);
+    return pmap_parallel_simd([x_](auto b, auto c) noexcept {
+      return rel_diff(x_, b, c);
+    }, y, scale);
+  } else if (y.length() == 1){
+    r_dbl y_ = y.get(0);
+    return pmap_parallel_simd([y_](auto a, auto c) noexcept {
+      return rel_diff(a, y_, c);
+    }, x, scale);
+  } else if (scale.length() == 1){
+    r_dbl sc = scale.get(0);
+    return pmap_parallel_simd([sc](auto a, auto b) noexcept {
+      return rel_diff(a, b, sc);
+    }, x, y);
+  } else {
+    return pmap_parallel_simd([](auto a, auto b, auto c) noexcept {
+      return rel_diff(a, b, c);
+    }, x, y, scale);
   }
 }
 
@@ -197,16 +197,16 @@ r_vec<r_dbl> cpp_double_rel_diff(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> sc
 r_vec<r_dbl> cpp_double_abs_diff(r_vec<r_dbl> x, r_vec<r_dbl> y) {
   if (x.length() == 1){
     r_dbl x_ = x.get(0);
-    return pmap_parallel_simd([x_](auto b) noexcept {                                                         
+    return pmap_parallel_simd([x_](auto b) noexcept {
       return abs(x_ - b);
     }, y);
   } else if (y.length() == 1){
     r_dbl y_ = y.get(0);
-    return pmap_parallel_simd([y_](auto a) noexcept {                                                         
+    return pmap_parallel_simd([y_](auto a) noexcept {
       return abs(a - y_);
     }, x);
   } else {
-    return pmap_parallel_simd([](auto a, auto b) noexcept {                                                         
+    return pmap_parallel_simd([](auto a, auto b) noexcept {
       return abs(a - b);
     }, x, y);
   }

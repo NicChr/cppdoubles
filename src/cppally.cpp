@@ -92,8 +92,11 @@ static const R_CallMethodDef CallEntries[] = {
 }
 
 
+void init_threads(DllInfo* dll);
+
 extern "C" attribute_visible void R_init_cppdoubles(DllInfo* dll){
   R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
   R_useDynamicSymbols(dll, FALSE);
+  init_threads(dll);
   R_forceSymbols(dll, TRUE);
 }
