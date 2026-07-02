@@ -2,7 +2,7 @@
 using namespace cppally;
 
 // Author: Nick Christofides
-// Date: 19-May-2026
+// Date: 02-July-2026
 // License: MIT License
 
 // Below are a complete set of C++ functions for comparing doubles
