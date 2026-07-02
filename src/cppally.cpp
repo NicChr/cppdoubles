@@ -20,59 +20,59 @@ extern "C" SEXP _cppdoubles_set_cppdoubles_threads(SEXP n) {
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_lgl> cpp_double_equal(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance);
+r_vec<r_lgl> cpp_double_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_equal(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(tolerance)));
+  return cpp_to_r(::cpp_double_equal(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_lgl> cpp_double_gt(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance);
+r_vec<r_lgl> cpp_double_gt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_gt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_gt(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(tolerance)));
+  return cpp_to_r(::cpp_double_gt(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_lgl> cpp_double_gte(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance);
+r_vec<r_lgl> cpp_double_gte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_gte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_gte(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(tolerance)));
+  return cpp_to_r(::cpp_double_gte(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_lgl> cpp_double_lt(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance);
+r_vec<r_lgl> cpp_double_lt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_lt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_lt(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(tolerance)));
+  return cpp_to_r(::cpp_double_lt(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_lgl> cpp_double_lte(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance);
+r_vec<r_lgl> cpp_double_lte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
 extern "C" SEXP _cppdoubles_cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_lte(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(tolerance)));
+  return cpp_to_r(::cpp_double_lte(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_dbl> cpp_double_rel_diff(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> scale);
+r_vec<r_dbl> cpp_double_rel_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& scale);
 extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y, SEXP scale) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_rel_diff(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(scale)));
+  return cpp_to_r(::cpp_double_rel_diff(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(scale)));
   END_CPPALLY
 }
 // doubles.cpp
-r_vec<r_dbl> cpp_double_abs_diff(r_vec<r_dbl> x, r_vec<r_dbl> y);
+r_vec<r_dbl> cpp_double_abs_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y);
 extern "C" SEXP _cppdoubles_cpp_double_abs_diff(SEXP x, SEXP y) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_abs_diff(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y)));
+  return cpp_to_r(::cpp_double_abs_diff(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y)));
   END_CPPALLY
 }
 // doubles.cpp
-r_lgl cpp_double_all_equal(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance, r_lgl na_rm);
+r_lgl cpp_double_all_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance, r_lgl na_rm);
 extern "C" SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   BEGIN_CPPALLY
-  return cpp_to_r(::cpp_double_all_equal(as<r_vec<r_dbl>>(x), as<r_vec<r_dbl>>(y), as<r_vec<r_dbl>>(tolerance), as<r_lgl>(na_rm)));
+  return cpp_to_r(::cpp_double_all_equal(as<const r_vec<r_dbl>&>(x), as<const r_vec<r_dbl>&>(y), as<const r_vec<r_dbl>&>(tolerance), as<r_lgl>(na_rm)));
   END_CPPALLY
 }
 

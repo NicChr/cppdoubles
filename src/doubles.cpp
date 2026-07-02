@@ -145,32 +145,32 @@ if (x.length() == 1){                                                           
 
 
 [[cppally::register]]
-r_vec<r_lgl> cpp_double_equal(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance) {
+r_vec<r_lgl> cpp_double_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(equal)
 }
 
 [[cppally::register]]
-r_vec<r_lgl> cpp_double_gt(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance) {
+r_vec<r_lgl> cpp_double_gt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(gt)
 }
 
 [[cppally::register]]
-r_vec<r_lgl> cpp_double_gte(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance) {
+r_vec<r_lgl> cpp_double_gte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(gte)
 }
 
 [[cppally::register]]
-r_vec<r_lgl> cpp_double_lt(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance) {
+r_vec<r_lgl> cpp_double_lt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(lt)
 }
 
 [[cppally::register]]
-r_vec<r_lgl> cpp_double_lte(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance) {
+r_vec<r_lgl> cpp_double_lte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance) {
   CPPDOUBLES_VECTORISED_COMPARISON(lte)
 }
 
 [[cppally::register]]
-r_vec<r_dbl> cpp_double_rel_diff(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> scale) {
+r_vec<r_dbl> cpp_double_rel_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& scale) {
   if (x.length() == 1){
     r_dbl x_ = x.get(0);
     return pmap_parallel_simd([x_](auto b, auto c) noexcept {
@@ -194,7 +194,7 @@ r_vec<r_dbl> cpp_double_rel_diff(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> sc
 }
 
 [[cppally::register]]
-r_vec<r_dbl> cpp_double_abs_diff(r_vec<r_dbl> x, r_vec<r_dbl> y) {
+r_vec<r_dbl> cpp_double_abs_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y) {
   if (x.length() == 1){
     r_dbl x_ = x.get(0);
     return pmap_parallel_simd([x_](auto b) noexcept {
@@ -213,7 +213,7 @@ r_vec<r_dbl> cpp_double_abs_diff(r_vec<r_dbl> x, r_vec<r_dbl> y) {
 }
 
 [[cppally::register]]
-r_lgl cpp_double_all_equal(r_vec<r_dbl> x, r_vec<r_dbl> y, r_vec<r_dbl> tolerance, r_lgl na_rm) {
+r_lgl cpp_double_all_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance, r_lgl na_rm) {
   bool skip_na = na_rm.is_true();
   bool has_na;
   r_size_t xn = x.length();
