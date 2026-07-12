@@ -17,6 +17,10 @@ void set_cppdoubles_threads(int n){
   int n_threads = std::max(1, std::min(cppally::max_threads(), n));
   cppally::set_threads(n_threads);
 }
+[[cppally::register]]
+int get_cppdoubles_threads(){
+  return cppally::get_threads();
+}
 
 // Start off with a quarter of the available threads
 [[cppally::init]]

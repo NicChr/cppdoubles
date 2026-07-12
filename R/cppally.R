@@ -4,6 +4,10 @@ set_cppdoubles_threads <- function(n) {
   invisible(.Call(`_cppdoubles_set_cppdoubles_threads`, n))
 }
 
+get_cppdoubles_threads <- function() {
+  .Call(`_cppdoubles_get_cppdoubles_threads`)
+}
+
 cpp_double_equal <- function(x, y, tolerance) {
   .Call(`_cppdoubles_cpp_double_equal`, x, y, tolerance)
 }
