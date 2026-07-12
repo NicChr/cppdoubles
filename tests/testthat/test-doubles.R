@@ -5,6 +5,14 @@ test_that("Check tolerance set correctly", {
   expect_identical(get_tolerance(), sqrt(.Machine$double.eps))
 })
 
+test_that("Equality at the tolerance boundary", {
+  expect_true(double_equal(0, sqrt(.Machine$double.eps)))
+  expect_true(double_gte(0, sqrt(.Machine$double.eps)))
+  expect_true(double_lte(0, sqrt(.Machine$double.eps)))
+  expect_false(double_lt(0, sqrt(.Machine$double.eps)))
+  expect_false(double_gt(0, sqrt(.Machine$double.eps)))
+})
+
 test_that("Integers", {
   set.seed(1000)
   x <- sample((-10^2):(10^2), size = 10^3, replace = TRUE)
