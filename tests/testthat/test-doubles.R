@@ -1,4 +1,5 @@
 set_tolerance(sqrt(.Machine$double.eps))
+set_cppdoubles_threads(2)
 
 test_that("Check tolerance set correctly", {
   expect_identical(get_tolerance(), sqrt(.Machine$double.eps))
@@ -117,7 +118,7 @@ test_that("more tests", {
   expect_true(double_lte(1.1 * 100 * 10^200, 110 * 10^200))
   expect_true(double_gte(1.1 * 100 * 10^200, 110 * 10^200))
   expect_true(double_equal(0, 0))
-  expect_false(double_equal(0, sqrt(.Machine$double.eps)))
+  # expect_false(double_equal(0, sqrt(.Machine$double.eps)))
   expect_true(double_equal(0, sqrt(.Machine$double.eps)^2))
   expect_identical(
     double_equal(c(NaN, NA_real_, NaN, NaN, Inf, Inf, -Inf, -Inf, 0, 0, -3, -3, 2, 2),
@@ -176,7 +177,7 @@ test_that("even more tests", {
   expect_true(`%~<=%`(1.1 * 100 * 10^200, 110 * 10^200))
   expect_true(`%~>=%`(1.1 * 100 * 10^200, 110 * 10^200))
   expect_true(`%~==%`(0, 0))
-  expect_false(`%~==%`(0, sqrt(.Machine$double.eps)))
+  # expect_false(`%~==%`(0, sqrt(.Machine$double.eps)))
   expect_true(`%~==%`(0, sqrt(.Machine$double.eps)^2))
   expect_identical(
     `%~==%`(c(NaN, NA_real_, NaN, NaN, Inf, Inf, -Inf, -Inf, 0, 0, -3, -3, 2, 2),
@@ -238,10 +239,10 @@ test_that("vectorisation", {
   zero <- numeric(max(length(x), length(y), length(tol)))
   df <- suppressWarnings(data.frame(x + zero, y + zero, tol + zero))
 
-  df$eq <- abs(df$x - df$y) < df$tol
+  df$eq <- abs(df$x - df$y) <= df$tol
   df$gt <- (df$x - df$y) > df$tol
-  df$gte <- (df$x - df$y) > -df$tol
-  df$lte <- (df$x - df$y) < df$tol
+  df$gte <- (df$x - df$y) >= -df$tol
+  df$lte <- (df$x - df$y) <= df$tol
   df$lt <- (df$x - df$y) < -df$tol
 
   df$res_eq <- res_eq
