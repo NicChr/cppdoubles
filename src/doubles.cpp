@@ -29,7 +29,7 @@ void init_threads(DllInfo* dll){
   set_cppdoubles_threads(n_threads);
 }
 
-constexpr r_dbl default_tol(){
+constexpr r_dbl default_tol() noexcept {
   return r_limits<r_dbl>::tolerance();
 }
 
