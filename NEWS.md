@@ -8,6 +8,9 @@ parallelisation and compiler optimisations.
 - New functions `get_threads` and `set_threads` for getting and setting 
 threads for parallel computation.
 
+- `double_equal` now always returns `TRUE` when equality is exact, 
+even when tolerance is negative.
+
 # cppdoubles 0.4.0
 
 ### New features
