@@ -3,7 +3,10 @@
 - cppdoubles has migrated its C++ dependency from cpp11 to cppally.
 
 - Major speed improvements to most functions through the use of 
-parallelisation and compiler optimisations. 
+parallelisation and compiler optimisations.
+
+- New functions `get_threads` and `set_threads` for getting and setting 
+threads for parallel computation.
 
 # cppdoubles 0.4.0
 
