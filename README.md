@@ -15,7 +15,7 @@ coverage](https://codecov.io/gh/NicChr/cppdoubles/graph/badge.svg)](https://app.
 You can install `cppdoubles` using the below code.
 
 ``` r
-remotes::install_github("NicChr/cppdoubles")
+install.packages("cppdoubles")
 ```
 
 Comparing equality of 2 double vectors
@@ -65,7 +65,7 @@ All comparisons are vectorised and recycled
 double_equal(sqrt(1:10),
              sqrt(1:5),
              tol = c(-Inf, 1e-10, Inf))
-#>  [1] FALSE  TRUE  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE
+#>  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE FALSE
 ```
 
 One can check if a double is a whole number like so
@@ -114,8 +114,8 @@ mark(base = isTRUE(all.equal(x, y)),
 #> # A tibble: 2 × 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 base        326.8ms  328.4ms      3.05     437MB     10.7
-#> 2 cppdoubles   75.4ms   85.3ms     11.7         0B      0
+#> 1 base        334.9ms    342ms      2.92     437MB     10.2
+#> 2 cppdoubles   90.7ms     93ms     10.4         0B      0
 
 # 2 significantly different vectors
 mean(rel_diff(x, z))
@@ -125,8 +125,8 @@ mark(base = isTRUE(all.equal(x, z)),
 #> # A tibble: 2 × 6
 #>   expression      min   median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr> <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-#> 1 base        199.5ms  213.3ms      4.57     343MB     10.7
-#> 2 cppdoubles    1.6µs    1.9µs 467277.          0B      0
+#> 1 base        242.1ms  266.2ms      3.76     343MB     7.51
+#> 2 cppdoubles    1.6µs    2.6µs 342274.          0B     0
 ```
 
 Benchmark against using absolute differences
@@ -137,6 +137,6 @@ mark(double_equal(x, y),
 #> # A tibble: 2 × 6
 #>   expression                             min median `itr/sec` mem_alloc `gc/sec`
 #>   <bch:expr>                          <bch:> <bch:>     <dbl> <bch:byt>    <dbl>
-#> 1 double_equal(x, y)                  83.8ms 86.3ms      11.5    38.1MB     5.75
-#> 2 abs_diff(x, y) < sqrt(.Machine$dou… 49.7ms 53.8ms      17.4   114.4MB    10.4
+#> 1 double_equal(x, y)                  23.1ms   25ms      40.4    38.1MB     10.8
+#> 2 abs_diff(x, y) < sqrt(.Machine$dou… 34.5ms   45ms      23.1   114.4MB     34.7
 ```
