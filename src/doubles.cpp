@@ -38,7 +38,7 @@ r_lgl is_inf(r_dbl x) noexcept {
 }
 
 r_lgl both_same_inf(r_dbl x, r_dbl y) noexcept {
-  return (x == pos_inf && y == pos_inf) || (x == neg_inf && y == neg_inf);
+  return (x == y) && is_inf(x);
 }
 r_lgl any_inf(r_dbl x, r_dbl y) noexcept {
   return is_inf(x) || is_inf(y);
