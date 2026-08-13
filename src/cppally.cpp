@@ -14,7 +14,7 @@ using internal::dispatch_template_impl;
 
 // doubles.cpp
 void set_cppdoubles_threads(int n);
-extern "C" SEXP _cppdoubles_set_cppdoubles_threads(SEXP n) {
+extern "C" attribute_visible SEXP _cppdoubles_set_cppdoubles_threads(SEXP n) {
   BEGIN_CPPALLY
   ::set_cppdoubles_threads(r_to_cpp<int>(n));
   return R_NilValue;
@@ -22,7 +22,7 @@ extern "C" SEXP _cppdoubles_set_cppdoubles_threads(SEXP n) {
 }
 // doubles.cpp
 int get_cppdoubles_threads();
-extern "C" SEXP _cppdoubles_get_cppdoubles_threads() {
+extern "C" attribute_visible SEXP _cppdoubles_get_cppdoubles_threads() {
   BEGIN_CPPALLY
   return cpp_to_r(::get_cppdoubles_threads());
   END_CPPALLY
@@ -36,49 +36,49 @@ extern "C" SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
 }
 // doubles.cpp
 r_vec<r_lgl> cpp_double_gt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_gt(SEXP x, SEXP y, SEXP tolerance) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_gt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_gt(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
 r_vec<r_lgl> cpp_double_gte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_gte(SEXP x, SEXP y, SEXP tolerance) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_gte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_gte(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
 r_vec<r_lgl> cpp_double_lt(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_lt(SEXP x, SEXP y, SEXP tolerance) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_lt(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_lt(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
 r_vec<r_lgl> cpp_double_lte(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_lte(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_lte(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
 }
 // doubles.cpp
 r_vec<r_dbl> cpp_double_rel_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& scale);
-extern "C" SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y, SEXP scale) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_rel_diff(SEXP x, SEXP y, SEXP scale) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_rel_diff(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(scale)));
   END_CPPALLY
 }
 // doubles.cpp
 r_vec<r_dbl> cpp_double_abs_diff(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y);
-extern "C" SEXP _cppdoubles_cpp_double_abs_diff(SEXP x, SEXP y) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_abs_diff(SEXP x, SEXP y) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_abs_diff(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y)));
   END_CPPALLY
 }
 // doubles.cpp
 r_lgl cpp_double_all_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance, r_lgl na_rm);
-extern "C" SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_all_equal(SEXP x, SEXP y, SEXP tolerance, SEXP na_rm) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_all_equal(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(tolerance), r_to_cpp<r_lgl>(na_rm)));
   END_CPPALLY
