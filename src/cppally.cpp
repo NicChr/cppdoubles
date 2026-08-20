@@ -29,7 +29,7 @@ extern "C" attribute_visible SEXP _cppdoubles_get_cppdoubles_threads() {
 }
 // doubles.cpp
 r_vec<r_lgl> cpp_double_equal(const r_vec<r_dbl>& x, const r_vec<r_dbl>& y, const r_vec<r_dbl>& tolerance);
-extern "C" SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
+extern "C" attribute_visible SEXP _cppdoubles_cpp_double_equal(SEXP x, SEXP y, SEXP tolerance) {
   BEGIN_CPPALLY
   return cpp_to_r(::cpp_double_equal(r_to_cpp<const r_vec<r_dbl>&>(x), r_to_cpp<const r_vec<r_dbl>&>(y), r_to_cpp<const r_vec<r_dbl>&>(tolerance)));
   END_CPPALLY
